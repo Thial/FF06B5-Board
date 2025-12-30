@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FF06B5 Board</title>
     <style>
+        @import url(https://fonts.googleapis.com/css?family=Jura);
+
         body {
             margin: 0;
             overflow: hidden;
             background: linear-gradient(to bottom, #322, #223);
-            font-family: 'Jura', sans-serif;
+            font-family: 'Jura';
 	    cursor: initial;
         }
         canvas {
@@ -19,7 +21,7 @@
 
         #controls {
             position: absolute;
-            top: 10px;
+            top: 50px;
             left: 10px;
             z-index: 100;
         }
@@ -30,13 +32,14 @@
             border-radius: 6px;
             font-size: 14px;
             cursor: pointer;
+            font-family: 'Jura';
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         #resetBtn:hover { background: #f8f8f8; }
 
         #info {
             position: absolute;
-            top: 70px;
+            top: 10px;
             left: 10px;
             background: rgba(255,255,255,0.8);
             padding: 8px 12px;
@@ -83,10 +86,10 @@
 <body>
     <canvas id="canvas"></canvas>
 
+    <div id="info">Drag canvas to pan • Scroll to zoom • Drag card headers • Click images to enlarge</div>
     <div id="controls">
-        <button id="resetBtn">Reset View</button>
+        <button id="resetBtn">Reset</button>
     </div>
-    <div id="info">Drag canvas to pan • Scroll to zoom • Drag card titles</div>
 
     <div id="fullscreenModal">
         <div id="closeModal">×</div>
@@ -105,13 +108,13 @@
         const sources = {};
         const cardsByTheory = [];
 
-        let offsetX = 0;
-        let offsetY = 0;
-        let scale = 1;
+        let offsetX = window.innerWidth/2;
+        let offsetY = window.innerHeight/2;
+        let scale = 0.05;
 
         let draggedCard = null;
-        let dragOffX = 0,
-            dragOffY = 0;
+        let dragOffX = offsetX,
+            dragOffY = offsetY;
         let isDraggingCanvas = false;
         let lastMX = 0,
             lastMY = 0;
@@ -120,13 +123,13 @@
         const MIN_SPACING = 40;
         const MAJOR_MULT = 4;
 
+        const TITLE_BAR_HEIGHT = 70;
+        const IMAGE_HEIGHT = 400;
+        const TEXT_HEIGHT = 230;
         const CARD_WIDTH = 400;
-        const CARD_HEIGHT = 700;
+        const CARD_HEIGHT = TITLE_BAR_HEIGHT + IMAGE_HEIGHT + TEXT_HEIGHT;
         const CARD_GAP_X = CARD_WIDTH + 350;
         const CARD_GAP_Y = CARD_HEIGHT + 100;
-        const TITLE_BAR_HEIGHT = 50;
-        const IMAGE_HEIGHT = 400;
-        const TEXT_HEIGHT = 250;
 
         let needsDraw = true;
 
@@ -303,11 +306,14 @@
         function drawTheory(theory) {
             const x = w2sX(theory.x);
             const y = w2sY(theory.y - 400);
+            ctx.save();
+            ctx.globalCompositeOperation = 'screen';
             ctx.fillStyle = '#733';
-            ctx.font = `bold ${w2sL(400)}px sans-serif`;
+            ctx.font = `bold ${w2sL(400)}px Jura, sans-serif`;
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'center';
-            ctx.fillText(theory.name, x + w2sL(theoryWidth / 2 - 150), y);
+            ctx.fillText(theory.name.toUpperCase(), x + w2sL(theoryWidth / 2 - 150), y);
+            ctx.restore();
         }
 
         function drawCard(card) {
@@ -318,6 +324,7 @@
             const title_bar_height = w2sL(TITLE_BAR_HEIGHT);
             const image_height = w2sL(IMAGE_HEIGHT);
             const text_height = w2sL(TEXT_HEIGHT);
+            let blur = w2sL(10);
 
             // Off-screen culling
             if (x + w < 0 || x > canvas.width || y + h < 0 || y > canvas.height) return;
@@ -334,34 +341,63 @@
             ctx.fillRect(x, y, w, title_bar_height);
 
             // Title
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter';
             ctx.fillStyle = '#0DD';
-            ctx.font = `bold ${w2sL(20)}px sans-serif`;
+            ctx.shadowColor = '#0DD';
+            ctx.font = `bold ${w2sL(25)}px Jura, sans-serif`;
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'left';
-            ctx.fillText(card.title, x + w2sL(10), y + w2sL(16));
+            ctx.shadowBlur = (blur > 4 ? blur : 0);
+            ctx.fillText(card.title.toUpperCase(), x + w2sL(10), y + w2sL(20));
+            ctx.restore();
 
             // Theory
             ctx.fillStyle = '#F55';
-            ctx.font = `bold ${w2sL(12)}px sans-serif`;
+            ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'left';
-            ctx.fillText(`${theories[card.theory_id].name} - ${sources[card.source_id].name}`, x + w2sL(10), y + w2sL(36));
+            ctx.fillText(`${theories[card.theory_id].name.toUpperCase()} - ${sources[card.source_id].name.toUpperCase()}`, x + w2sL(10), y + w2sL(50));
+
+            let factCheckX = x + w - (card.is_fact ? w2sL(65) : w2sL(92));
+            let factCheckY = y + w2sL(38);
+            let factCheckW = (card.is_fact ? w2sL(56) : w2sL(83));
+            let factCheckH = w2sL(25);
+
+            // FactCheck Square
+            ctx.fillStyle = (card.is_fact ? '#040' : '#440');
+            ctx.fillRect(factCheckX, factCheckY, factCheckW, factCheckH);
+
+            // Fact Check Border
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.shadowColor = (card.is_fact ? '#0F0' : '#FF0');
+            if (card.is_fact) {
+              ctx.strokeStyle = `rgba(0, 255, 0, 1)`;
+            } else {
+              ctx.strokeStyle = `rgba(255, 255, 0, 1)`;
+            }
+            ctx.shadowBlur = (blur > 4 ? blur : 0);
+            ctx.lineWidth = w2sL(1.5);
+            ctx.strokeRect(factCheckX, factCheckY, factCheckW, factCheckH);
+            ctx.restore();
 
             // FactCheck
-            ctx.font = `bold ${w2sL(12)}px sans-serif`;
+            ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
-            if (card.is_fact) {
-                ctx.fillStyle = '#0F0';
-                ctx.fillText('Fact', x + w - w2sL(30), y + w2sL(36));
-            } else {
-                ctx.fillStyle = '#FF0';
-                ctx.fillText('Speculation', x + w - w2sL(30), y + w2sL(36));
-            }
+            ctx.fillStyle = (card.is_fact ? '#0F0' : '#FF0');
+            let factCheckText = (card.is_fact ? 'FACT' : 'OPINION');
+            ctx.fillText(factCheckText, x + w - w2sL(18), y + w2sL(50));
 
             // Line
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter';
             ctx.fillStyle = '#AA3333';
-            ctx.fillRect(x, y + title_bar_height, w, w2sL(1));
+            ctx.shadowColor = '#AA3333';
+            ctx.shadowBlur = (blur > 4 ? blur : 0);
+            ctx.fillRect(x, y + title_bar_height, w, w2sL(1.5));
+            ctx.restore();
 
             // Image placeholder or real image
             const img = images[card.thumbnail_url];
@@ -373,12 +409,17 @@
             }
 
             // Line
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter';
             ctx.fillStyle = '#AA3333';
-            ctx.fillRect(x, y + title_bar_height + image_height, w, w2sL(1));
+            ctx.shadowColor = '#AA3333';
+            ctx.shadowBlur = (blur > 4 ? blur : 0);
+            ctx.fillRect(x, y + title_bar_height + image_height, w, w2sL(1.5));
+            ctx.restore();
 
             // Description text
             ctx.fillStyle = '#F55';
-            ctx.font = `bold ${w2sL(15)}px sans-serif`;
+            ctx.font = `bold ${w2sL(15)}px Jura, sans-serif`;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
             const maxWidth = w - w2sL(32);
@@ -406,7 +447,7 @@
 
             ctx.shadowColor = '#ff5555';
             ctx.strokeStyle = `rgba(255, 55, 55, 1)`;
-            ctx.shadowBlur = 10;
+            ctx.shadowBlur = (blur > 4 ? blur : 0);
             ctx.lineWidth = w2sL(1.5);
             ctx.strokeRect(x - w2sL(0.75), y - w2sL(0.75), w + w2sL(1.5), h + w2sL(1.5));
 
@@ -437,9 +478,13 @@
             resize();
 
             document.getElementById('resetBtn').addEventListener('click', () => {
-                offsetX = 0;
-                offsetY = 0;
-                scale = 1;
+                offsetX = window.innerWidth/2;
+                offsetY = window.innerHeight/2;
+                scale = 0.05;
+                json.cards.forEach(card => {
+                  card.x = card.initial_x;
+                  card.y = card.initial_y;
+                });
                 needsDraw = true;
                 draw();
             });
@@ -452,7 +497,7 @@
                     const sx = w2sX(card.x);
                     const sy = w2sY(card.y);
                     const sw = w2sL(CARD_WIDTH);
-                    const titleH = w2sL(50);
+                    const titleH = w2sL(TITLE_BAR_HEIGHT);
 
                     if (mx >= sx && mx <= sx + sw && my >= sy && my <= sy + titleH) {
                         draggedCard = card;
@@ -511,7 +556,7 @@
                 const wy = (my - offsetY) / scale;
 
                 scale *= factor;
-                scale = Math.max(0.05, Math.min(scale, 500));
+                scale = Math.max(0.05, Math.min(scale, 5));
 
                 offsetX = mx - wx * scale;
                 offsetY = my - wy * scale;
@@ -528,9 +573,9 @@
 
                 for (const card of json.cards) {
                     const sx = w2sX(card.x);
-                    const sy = w2sY(card.y + 50);
+                    const sy = w2sY(card.y + TITLE_BAR_HEIGHT);
                     const sw = w2sL(CARD_WIDTH);
-                    const sh = w2sL(400);
+                    const sh = w2sL(IMAGE_HEIGHT);
 
                     if (mx >= sx && mx <= sx + sw && my >= sy && my <= sy + sh) {
                         fullscreenImage.src = card.image_url;
