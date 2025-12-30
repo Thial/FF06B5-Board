@@ -131,7 +131,7 @@
         if (!response.ok) {
           throw new Error('Failed to fetch data!');
         }
-        return data = await response.json();
+        return data = await response.json().value;
       } catch (error) {
         console.error('ERROR: ', error);
       }
