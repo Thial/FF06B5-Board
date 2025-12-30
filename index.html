@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast Infinite Grid with Clean Cards</title>
+    <title>FF06B5 Investigation Board</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
             background: linear-gradient(to bottom, #322, #223);
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Jura', sans-serif;
 	    cursor: initial;
         }
         canvas {
@@ -100,255 +100,150 @@
         const fullscreenImage = document.getElementById('fullscreenImage');
         const closeModal = document.getElementById('closeModal');
 
-        // Preload images
         const images = {};
-	const theories = {};
-	const sources = {};
-	const cardsByTheory = [];
+        const theories = {};
+        const sources = {};
+        const cardsByTheory = [];
 
-        // View state
         let offsetX = 0;
         let offsetY = 0;
         let scale = 1;
+
+        let draggedCard = null;
+        let dragOffX = 0,
+            dragOffY = 0;
+        let isDraggingCanvas = false;
+        let lastMX = 0,
+            lastMY = 0;
 
         const BASE_GRID = 80;
         const MIN_SPACING = 40;
         const MAJOR_MULT = 4;
 
-	const CARD_WIDTH = 400;
-	const CARD_HEIGHT = 700;
-	const TITLE_BAR_HEIGHT = 50;
-	const IMAGE_HEIGHT = 400;
-	const TEXT_HEIGHT = 250;
+        const CARD_WIDTH = 400;
+        const CARD_HEIGHT = 700;
+        const CARD_GAP_X = CARD_WIDTH + 350;
+        const CARD_GAP_Y = CARD_HEIGHT + 100;
+        const TITLE_BAR_HEIGHT = 50;
+        const IMAGE_HEIGHT = 400;
+        const TEXT_HEIGHT = 250;
 
         let needsDraw = true;
 
-        // World-space cards
+        let json;
 
-	async function loadData() {
-      try {
-        const response = await fetch('data.json');
-        if (!response.ok) {
-          throw new Error('Failed to fetch data!');
+        let theoryWidth = 0;
+        let theoryHeight = 0;
+
+        function w2sX(x) {
+            return x * scale + offsetX;
         }
-        return data = await response.json().value;
-      } catch (error) {
-        console.error('ERROR: ', error);
-      }
-	}
 
-	const json = loadData();
-
-	// Initialize the lookup table of theories.
-	json.theories.forEach(theory => {   
-	    theories[theory.id] = theory;
-	    cardsByTheory[theory.id] = [];	    
-	})
-
-	// Initialize the lookup table of sources.
-	json.sources.forEach(source => {
-	    sources[source.id] = source;
-	});
-
-	// Segregate the cards by theory for counting and calculate canvas offsets
-	json.cards.forEach(card => {
-	    cardsByTheory[card.theory_id].push(card);
-	});
-
-	// Calculate theory grid size and offset
-	const theoryGridSize = Math.max(2, Math.ceil(Math.sqrt(json.theories.length)));
-
-	// Assign card coordinates based on the theory offset
-	json.theories.forEach(theory => {
-	    let theoryCardCount = cardsByTheory[theory.id].length;
-	    let cardGridSize = Math.max(2, Math.ceil(Math.sqrt(theoryCardCount)));
-	    theory.card_grid_size = cardGridSize;
-	});
-
-	// Calculate the highest needed card grid size among all theories
-	// Based on this the separation between theories will be calculated
-	const cardGridSizeMax = Math.max(...json.theories.map(theory => theory.card_grid_size));
-	const cardGapX = CARD_WIDTH + 350;
-	const cardGapY = CARD_HEIGHT + 100;
-	const theoryWidth = cardGridSizeMax * cardGapX;
-	const theoryHeight = cardGridSizeMax * cardGapY;
-	const theoryGapSizeX = theoryWidth + 3 * cardGapX;
-	const theoryGapSizeY = theoryHeight + 2 * cardGapY;
-	const theorySpanMaxX = theoryGridSize * theoryGapSizeX;
-	const theorySpanMaxY = theoryGridSize * theoryGapSizeY;
-	const theoryStartPointX = 0 - (theorySpanMaxX / 2) + (theorySpanMaxX / 8);
-	const theoryStartPointY = 0 - (theorySpanMaxY / 2) + (theorySpanMaxY / 8);
-
-	// Assign positions to theories
-	let theoryGridX = 0;
-	let theoryGridY = 0;
-	json.theories.forEach(theory => {
-	    theory.x = theoryStartPointX + theoryGridX * theoryGapSizeX;
-	    theory.y = theoryStartPointY + theoryGridY * theoryGapSizeY; 
-	    theoryGridX++; 
-	    if (theoryGridX >= theoryGridSize) {
-		theoryGridX = 0;
-		theoryGridY++;
-	    }
-	});
-
-	// Assign positions to cards
-	cardsByTheory.forEach(cards => {
-	    if (cards.length > 0) {
-		let theory = theories[cards[0].theory_id];
-		let cardGridX = 0;
-		let cardGridY = 0;
-		cards.forEach(card => {
-		    card.initial_x = theory.x + (cardGridX * cardGapX);
-		    card.initial_y = theory.y + (cardGridY * cardGapY);
-		    card.x = card.initial_x;
-		    card.y = card.initial_y;
-		    cardGridX++;
-		    if (cardGridX >= theory.card_grid_size) {
-			cardGridX = 0;
-			cardGridY++;
-		    }
-		});
-	    }
-	});
-
-        // Preload images
-        json.cards.forEach(card => {
-            const img = new Image();
-            img.src = card.thumbnail_url;
-            img.onload = () => { needsDraw = true; draw(); };
-            images[card.thumbnail_url] = img;
-        });
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            needsDraw = true;
-            draw();
+        function w2sY(y) {
+            return y * scale + offsetY;
         }
-        window.addEventListener('resize', resize);
-        resize();
 
-        document.getElementById('resetBtn').addEventListener('click', () => {
-            offsetX = 0;
-            offsetY = 0;
-            scale = 1;
-            needsDraw = true;
-            draw();
-        });
+        function w2sL(l) {
+            return l * scale;
+        }
 
-        // Transform helpers
-        function w2sX(x) { return x * scale + offsetX; }
-        function w2sY(y) { return y * scale + offsetY; }
-        function w2sL(l) { return l * scale; }
+        async function initialize() {
+            fetch('data.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to get data!');
+                    return response.json();
+                })
+                .then(data => {
+                    json = data;
+                    console.log(json);
+                    initializeCollections();
+                    calculateTheoryPositions();
+                    calculateCardPositions();
+                    addEventListeners();
 
-        // Interaction
-        let draggedCard = null;
-        let dragOffX = 0, dragOffY = 0;
-        let isDraggingCanvas = false;
-        let lastMX = 0, lastMY = 0;
+                    json.cards.forEach(card => {
+                        const img = new Image();
+                        img.src = card.thumbnail_url;
+                        img.onload = () => {
+                            needsDraw = true;
+                            draw();
+                        };
+                        images[card.thumbnail_url] = img;
+                    });
 
-        canvas.addEventListener('mousedown', e => {
-            const mx = e.clientX;
-            const my = e.clientY;
+                    draw();
+                })
+                .catch(err => console.error(err));
+        }
 
-            // Check card title bars
-            for (const card of json.cards) {
-                const sx = w2sX(card.x);
-                const sy = w2sY(card.y);
-                const sw = w2sL(CARD_WIDTH);
-                const titleH = w2sL(50);
 
-                if (mx >= sx && mx <= sx + sw && my >= sy && my <= sy + titleH) {
-                    draggedCard = card;
-                    dragOffX = mx - sx;
-                    dragOffY = my - sy;
-                    canvas.style.cursor = 'grabbing';
-                    return;
+        function initializeCollections() {
+            json.theories.forEach(theory => {
+                theories[theory.id] = theory;
+                cardsByTheory[theory.id] = [];
+            });
+
+            json.sources.forEach(source => {
+                sources[source.id] = source;
+            });
+
+            json.cards.forEach(card => {
+                cardsByTheory[card.theory_id].push(card);
+            });
+
+            json.theories.forEach(theory => {
+                let theoryCardCount = cardsByTheory[theory.id].length;
+                let cardGridSize = Math.max(2, Math.ceil(Math.sqrt(theoryCardCount)));
+                theory.card_grid_size = cardGridSize;
+            });
+        }
+
+        function calculateTheoryPositions() {
+            const theoryGridSize = Math.max(2, Math.ceil(Math.sqrt(json.theories.length)));
+            const cardGridSizeMax = Math.max(...json.theories.map(theory => theory.card_grid_size));
+            theoryWidth = cardGridSizeMax * CARD_GAP_X;
+            theoryHeight = cardGridSizeMax * CARD_GAP_Y;
+            const theoryGapSizeX = theoryWidth + 3 * CARD_GAP_X;
+            const theoryGapSizeY = theoryHeight + 2 * CARD_GAP_Y;
+            const theorySpanMaxX = theoryGridSize * theoryGapSizeX;
+            const theorySpanMaxY = theoryGridSize * theoryGapSizeY;
+            const theoryStartPointX = 0 - (theorySpanMaxX / 2) + (theorySpanMaxX / 8);
+            const theoryStartPointY = 0 - (theorySpanMaxY / 2) + (theorySpanMaxY / 8);
+
+            let theoryGridX = 0;
+            let theoryGridY = 0;
+            json.theories.forEach(theory => {
+                theory.x = theoryStartPointX + theoryGridX * theoryGapSizeX;
+                theory.y = theoryStartPointY + theoryGridY * theoryGapSizeY;
+                theoryGridX++;
+                if (theoryGridX >= theoryGridSize) {
+                    theoryGridX = 0;
+                    theoryGridY++;
                 }
-            }
+            });
+        }
 
-            // Canvas drag
-            isDraggingCanvas = true;
-            lastMX = mx;
-            lastMY = my;
-        });
-
-        canvas.addEventListener('mousemove', e => {
-            const mx = e.clientX;
-            const my = e.clientY;
-
-            if (draggedCard) {
-                draggedCard.x = (mx - dragOffX - offsetX) / scale;
-                draggedCard.y = (my - dragOffY - offsetY) / scale;
-                needsDraw = true;
-            } else if (isDraggingCanvas) {
-                offsetX += mx - lastMX;
-                offsetY += my - lastMY;
-                lastMX = mx;
-                lastMY = my;
-                needsDraw = true;
-            }
-
-            if (needsDraw) {
-                requestAnimationFrame(draw);
-            }
-        });
-
-        canvas.addEventListener('mouseup', () => {
-            draggedCard = null;
-            isDraggingCanvas = false;
-            canvas.style.cursor = 'initial';
-            needsDraw = true;
-            draw();
-        });
-
-        canvas.addEventListener('mouseleave', () => {
-            draggedCard = null;
-            isDraggingCanvas = false;
-        });
-
-        // Zoom
-        canvas.addEventListener('wheel', e => {
-            e.preventDefault();
-            const factor = Math.exp(-e.deltaY * 0.0015);
-            const mx = e.clientX;
-            const my = e.clientY;
-            const wx = (mx - offsetX) / scale;
-            const wy = (my - offsetY) / scale;
-
-            scale *= factor;
-            scale = Math.max(0.05, Math.min(scale, 500));
-
-            offsetX = mx - wx * scale;
-            offsetY = my - wy * scale;
-
-            needsDraw = true;
-            draw();
-        });
-
-        // Click image for fullscreen
-        canvas.addEventListener('click', e => {
-            if (draggedCard || isDraggingCanvas) return; // ignore clicks during drag
-
-            const mx = e.clientX;
-            const my = e.clientY;
-
-            for (const card of json.cards) {
-                const sx = w2sX(card.x);
-                const sy = w2sY(card.y + 50);
-                const sw = w2sL(CARD_WIDTH);
-                const sh = w2sL(400);
-
-                if (mx >= sx && mx <= sx + sw && my >= sy && my <= sy + sh) {
-                    fullscreenImage.src = card.image_url;
-                    fullscreenModal.style.display = 'flex';
-                    return;
+        function calculateCardPositions() {
+            cardsByTheory.forEach(cards => {
+                if (cards.length > 0) {
+                    let theory = theories[cards[0].theory_id];
+                    let cardGridX = 0;
+                    let cardGridY = 0;
+                    cards.forEach(card => {
+                        card.initial_x = theory.x + (cardGridX * CARD_GAP_X);
+                        card.initial_y = theory.y + (cardGridY * CARD_GAP_Y);
+                        card.x = card.initial_x;
+                        card.y = card.initial_y;
+                        cardGridX++;
+                        if (cardGridX >= theory.card_grid_size) {
+                            cardGridX = 0;
+                            cardGridY++;
+                        }
+                    });
                 }
-            }
-        });
+            });
+        }
 
-        // Grid
         function drawGrid() {
             const w = canvas.width;
             const h = canvas.height;
@@ -358,64 +253,81 @@
             while (spacing * step < MIN_SPACING) step *= 2;
             spacing = BASE_GRID * step * scale;
 
-            let startX = offsetX % spacing; if (startX < 0) startX += spacing;
-            let startY = offsetY % spacing; if (startY < 0) startY += spacing;
+            let startX = offsetX % spacing;
+            if (startX < 0) startX += spacing;
+            let startY = offsetY % spacing;
+            if (startY < 0) startY += spacing;
 
             ctx.strokeStyle = '#422';
             ctx.lineWidth = 1;
             ctx.beginPath();
-            for (let x = startX; x < w; x += spacing) { ctx.moveTo(x, 0); ctx.lineTo(x, h); }
-            for (let y = startY; y < h; y += spacing) { ctx.moveTo(0, y); ctx.lineTo(w, y); }
+            for (let x = startX; x < w; x += spacing) {
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, h);
+            }
+            for (let y = startY; y < h; y += spacing) {
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+            }
             ctx.stroke();
 
             const majorSpacing = spacing * MAJOR_MULT;
-            let majorStartX = offsetX % majorSpacing; if (majorStartX < 0) majorStartX += majorSpacing;
-            let majorStartY = offsetY % majorSpacing; if (majorStartY < 0) majorStartY += majorSpacing;
+            let majorStartX = offsetX % majorSpacing;
+            if (majorStartX < 0) majorStartX += majorSpacing;
+            let majorStartY = offsetY % majorSpacing;
+            if (majorStartY < 0) majorStartY += majorSpacing;
 
             ctx.strokeStyle = '#522';
             ctx.lineWidth = 1.5;
             ctx.beginPath();
-            for (let x = majorStartX; x < w; x += majorSpacing) { ctx.moveTo(x, 0); ctx.lineTo(x, h); }
-            for (let y = majorStartY; y < h; y += majorSpacing) { ctx.moveTo(0, y); ctx.lineTo(w, y); }
+            for (let x = majorStartX; x < w; x += majorSpacing) {
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, h);
+            }
+            for (let y = majorStartY; y < h; y += majorSpacing) {
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+            }
             ctx.stroke();
 
             ctx.strokeStyle = '#733';
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.moveTo(0, offsetY); ctx.lineTo(w, offsetY);
-            ctx.moveTo(offsetX, 0); ctx.lineTo(offsetX, h);
+            ctx.moveTo(0, offsetY);
+            ctx.lineTo(w, offsetY);
+            ctx.moveTo(offsetX, 0);
+            ctx.lineTo(offsetX, h);
             ctx.stroke();
         }
 
-	function drawTheory(theory) {
-	    const x = w2sX(theory.x);
-	    const y = w2sY(theory.y - 400);
-	    ctx.fillStyle = '#733';
-	    ctx.font = `bold ${w2sL(400)}px sans-serif`;
-	    ctx.textBaseline = 'middle';
-	    ctx.textAlign = 'center';
-	    ctx.fillText(theory.name, x + w2sL(theoryWidth / 2 - 150), y);
-	}
+        function drawTheory(theory) {
+            const x = w2sX(theory.x);
+            const y = w2sY(theory.y - 400);
+            ctx.fillStyle = '#733';
+            ctx.font = `bold ${w2sL(400)}px sans-serif`;
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            ctx.fillText(theory.name, x + w2sL(theoryWidth / 2 - 150), y);
+        }
 
-        // Clean card drawing
         function drawCard(card) {
             const x = w2sX(card.x);
             const y = w2sY(card.y);
             const w = w2sL(CARD_WIDTH);
             const h = w2sL(CARD_HEIGHT);
-	    const title_bar_height = w2sL(TITLE_BAR_HEIGHT);
-	    const image_height = w2sL(IMAGE_HEIGHT);
-	    const text_height = w2sL(TEXT_HEIGHT);
+            const title_bar_height = w2sL(TITLE_BAR_HEIGHT);
+            const image_height = w2sL(IMAGE_HEIGHT);
+            const text_height = w2sL(TEXT_HEIGHT);
 
             // Off-screen culling
             if (x + w < 0 || x > canvas.width || y + h < 0 || y > canvas.height) return;
 
             // Card background
-	    const gradient = ctx.createLinearGradient(x,y,x,y+h);
-	    gradient.addColorStop(0, '#331111');
-	    gradient.addColorStop(1, '#191111');
+            const gradient = ctx.createLinearGradient(x, y, x, y + h);
+            gradient.addColorStop(0, '#331111');
+            gradient.addColorStop(1, '#191111');
             ctx.fillStyle = gradient;
-            ctx.fillRect(x, y, w, h);            
+            ctx.fillRect(x, y, w, h);
 
             // Title bar
             ctx.fillStyle = '#311';
@@ -425,51 +337,44 @@
             ctx.fillStyle = '#0DD';
             ctx.font = `bold ${w2sL(20)}px sans-serif`;
             ctx.textBaseline = 'middle';
-	    ctx.textAlign = 'left';
+            ctx.textAlign = 'left';
             ctx.fillText(card.title, x + w2sL(10), y + w2sL(16));
 
-            // Tag
+            // Theory
             ctx.fillStyle = '#F55';
             ctx.font = `bold ${w2sL(12)}px sans-serif`;
             ctx.textBaseline = 'middle';
-	    ctx.textAlign = 'left';
+            ctx.textAlign = 'left';
             ctx.fillText(`${theories[card.theory_id].name} - ${sources[card.source_id].name}`, x + w2sL(10), y + w2sL(36));
 
-	    // FactCheck
-	    ctx.font = `bold ${w2sL(12)}px sans-serif`;
-	    ctx.textAlign = 'right';
-	    ctx.textBaseline = 'middle';
-	    if (card.is_fact) {
-		ctx.fillStyle = '#0F0';
-		ctx.fillText('Fact', x + w - w2sL(30), y + w2sL(36));
-	    } else {
-		ctx.fillStyle = '#FF0';
-		ctx.fillText('Speculation', x + w - w2sL(30), y + w2sL(36));
-	    }
+            // FactCheck
+            ctx.font = `bold ${w2sL(12)}px sans-serif`;
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            if (card.is_fact) {
+                ctx.fillStyle = '#0F0';
+                ctx.fillText('Fact', x + w - w2sL(30), y + w2sL(36));
+            } else {
+                ctx.fillStyle = '#FF0';
+                ctx.fillText('Speculation', x + w - w2sL(30), y + w2sL(36));
+            }
 
-	    // Line
-	    ctx.fillStyle = '#AA3333';
-	    ctx.fillRect(x, y + title_bar_height, w, w2sL(1));
+            // Line
+            ctx.fillStyle = '#AA3333';
+            ctx.fillRect(x, y + title_bar_height, w, w2sL(1));
 
             // Image placeholder or real image
             const img = images[card.thumbnail_url];
             if (img && img.complete) {
-		ctx.drawImage(img, x + w2sL(5), y + title_bar_height + w2sL(5), w - w2sL(10), image_height - w2sL(10));
+                ctx.drawImage(img, x + w2sL(5), y + title_bar_height + w2sL(5), w - w2sL(10), image_height - w2sL(10));
             } else {
                 ctx.fillStyle = '#f0f0f0';
                 ctx.fillRect(x, y + title_bar_height, w, image_height);
             }
 
-	    // Image debug
-	    //ctx.fillStyle = '#F00';
-	    //ctx.font = `bold ${w2sL(14)}px sans-serif`;
-	    //ctx.textBaseline = 'middle';
-	    //ctx.textAlign = 'left';
-	    //ctx.fillText(`isw: ${imgSpaceWidth} ish: ${imgSpaceHeight} s: ${scale} is: ${imgScale} sw: ${scaledWidth / scale} sh: ${scaledHeight / scale} ox: ${offsetX} oy: ${offsetY}`, x + w2sL(10), y + w2sL(60));
-
-	    // Line
-	    ctx.fillStyle = '#AA3333';
-	    ctx.fillRect(x, y + title_bar_height + image_height, w, w2sL(1));
+            // Line
+            ctx.fillStyle = '#AA3333';
+            ctx.fillRect(x, y + title_bar_height + image_height, w, w2sL(1));
 
             // Description text
             ctx.fillStyle = '#F55';
@@ -495,25 +400,17 @@
             }
             if (line) ctx.fillText(line, x + w2sL(16), curY);
 
-	    ctx.save()
+            ctx.save()
 
-	    // Neon glow setup (single color only)
-      	    ctx.globalCompositeOperation = 'lighter'; // Additive blending for intense glow
+            ctx.globalCompositeOperation = 'lighter';
 
-      	    ctx.shadowColor = '#ff5555';
-      	    ctx.strokeStyle = `rgba(255, 55, 55, 1)`; // Semi-transparent for outer layers
-      	    ctx.shadowBlur = 10;
+            ctx.shadowColor = '#ff5555';
+            ctx.strokeStyle = `rgba(255, 55, 55, 1)`;
+            ctx.shadowBlur = 10;
             ctx.lineWidth = w2sL(1.5);
             ctx.strokeRect(x - w2sL(0.75), y - w2sL(0.75), w + w2sL(1.5), h + w2sL(1.5));
 
-      	    // Sharp solid border on top
-      	    //ctx.globalCompositeOperation = 'source-over';
-      	    //ctx.shadowBlur = w2sL(10);
-      	    //ctx.lineWidth = w2sL(2);
-      	    //ctx.strokeStyle = '#ff5555';
-      	    //ctx.strokeRect(x, y, w, h);
-		
-	    ctx.restore();
+            ctx.restore();
         }
 
         function draw() {
@@ -523,16 +420,133 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawGrid();
 
-	    [...json.theories].forEach(drawTheory);
-
-            // Draw cards back to front by Y position
+            [...json.theories].forEach(drawTheory);
             [...json.cards].sort((a, b) => a.y - b.y).forEach(drawCard);
         }
 
-        closeModal.onclick = () => fullscreenModal.style.display = 'none';
-        fullscreenModal.onclick = e => { if (e.target === fullscreenModal) fullscreenModal.style.display = 'none'; };
 
-        draw();
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            needsDraw = true;
+            draw();
+        }
+
+        function addEventListeners() {
+            window.addEventListener('resize', resize);
+            resize();
+
+            document.getElementById('resetBtn').addEventListener('click', () => {
+                offsetX = 0;
+                offsetY = 0;
+                scale = 1;
+                needsDraw = true;
+                draw();
+            });
+
+            canvas.addEventListener('mousedown', e => {
+                const mx = e.clientX;
+                const my = e.clientY;
+
+                for (const card of json.cards) {
+                    const sx = w2sX(card.x);
+                    const sy = w2sY(card.y);
+                    const sw = w2sL(CARD_WIDTH);
+                    const titleH = w2sL(50);
+
+                    if (mx >= sx && mx <= sx + sw && my >= sy && my <= sy + titleH) {
+                        draggedCard = card;
+                        dragOffX = mx - sx;
+                        dragOffY = my - sy;
+                        canvas.style.cursor = 'grabbing';
+                        return;
+                    }
+                }
+
+                isDraggingCanvas = true;
+                lastMX = mx;
+                lastMY = my;
+            });
+
+            canvas.addEventListener('mousemove', e => {
+                const mx = e.clientX;
+                const my = e.clientY;
+
+                if (draggedCard) {
+                    draggedCard.x = (mx - dragOffX - offsetX) / scale;
+                    draggedCard.y = (my - dragOffY - offsetY) / scale;
+                    needsDraw = true;
+                } else if (isDraggingCanvas) {
+                    offsetX += mx - lastMX;
+                    offsetY += my - lastMY;
+                    lastMX = mx;
+                    lastMY = my;
+                    needsDraw = true;
+                }
+
+                if (needsDraw) {
+                    requestAnimationFrame(draw);
+                }
+            });
+
+            canvas.addEventListener('mouseup', () => {
+                draggedCard = null;
+                isDraggingCanvas = false;
+                canvas.style.cursor = 'initial';
+                needsDraw = true;
+                draw();
+            });
+
+            canvas.addEventListener('mouseleave', () => {
+                draggedCard = null;
+                isDraggingCanvas = false;
+            });
+
+            canvas.addEventListener('wheel', e => {
+                e.preventDefault();
+                const factor = Math.exp(-e.deltaY * 0.0015);
+                const mx = e.clientX;
+                const my = e.clientY;
+                const wx = (mx - offsetX) / scale;
+                const wy = (my - offsetY) / scale;
+
+                scale *= factor;
+                scale = Math.max(0.05, Math.min(scale, 500));
+
+                offsetX = mx - wx * scale;
+                offsetY = my - wy * scale;
+
+                needsDraw = true;
+                draw();
+            });
+
+            canvas.addEventListener('click', e => {
+                if (draggedCard || isDraggingCanvas) return;
+
+                const mx = e.clientX;
+                const my = e.clientY;
+
+                for (const card of json.cards) {
+                    const sx = w2sX(card.x);
+                    const sy = w2sY(card.y + 50);
+                    const sw = w2sL(CARD_WIDTH);
+                    const sh = w2sL(400);
+
+                    if (mx >= sx && mx <= sx + sw && my >= sy && my <= sy + sh) {
+                        fullscreenImage.src = card.image_url;
+                        fullscreenModal.style.display = 'flex';
+                        return;
+                    }
+                }
+            });
+
+            closeModal.onclick = () => fullscreenModal.style.display = 'none';
+            fullscreenModal.onclick = e => {
+                if (e.target === fullscreenModal) fullscreenModal.style.display = 'none';
+            };
+        }
+
+        initialize();
     </script>
 </body>
 </html>
