@@ -123,13 +123,20 @@
         const MIN_SPACING = 40;
         const MAJOR_MULT = 4;
 
-        const TITLE_BAR_HEIGHT = 70;
-        const IMAGE_HEIGHT = 400;
-        const TEXT_HEIGHT = 230;
+        const CARD_HEADER_HEIGHT = 70;
+        const CARD_IMAGE_HEIGHT = 400;
+        const CARD_TEXT_HEIGHT = 230;
         const CARD_WIDTH = 400;
-        const CARD_HEIGHT = TITLE_BAR_HEIGHT + IMAGE_HEIGHT + TEXT_HEIGHT;
+        const CARD_HEIGHT = CARD_HEADER_HEIGHT + CARD_IMAGE_HEIGHT + CARD_TEXT_HEIGHT;
         const CARD_GAP_X = CARD_WIDTH + 350;
         const CARD_GAP_Y = CARD_HEIGHT + 100;
+
+        const CARD_GENERATE_SCALE = 1;
+        const CARD_GENERATE_HEADER_HEIGHT = CARD_HEADER_HEIGHT * CARD_GENERATE_SCALE;
+        const CARD_GENERATE_IMAGE_HEIGHT = CARD_IMAGE_HEIGHT * CARD_GENERATE_SCALE;
+        const CARD_GENERATE_TEXT_HEIGHT = CARD_TEXT_HEIGHT * CARD_GENERATE_SCALE;
+        const CARD_GENERATE_WIDTH = CARD_WIDTH * CARD_GENERATE_SCALE;
+        const CARD_GENERATE_HEIGHT = CARD_HEIGHT * CARD_GENERATE_SCALE;
 
         let needsDraw = true;
 
@@ -168,6 +175,7 @@
                         const img = new Image();
                         img.src = card.thumbnail_url;
                         img.onload = () => {
+                            generateCard(card);
                             needsDraw = true;
                             draw();
                         };
@@ -192,6 +200,9 @@
 
             json.cards.forEach(card => {
                 cardsByTheory[card.theory_id].push(card);
+                card.canvas = document.createElement('canvas');
+                card.canvas.width = CARD_GENERATE_WIDTH;
+                card.canvas.height = CARD_GENERATE_HEIGHT;
             });
 
             json.theories.forEach(theory => {
@@ -245,6 +256,149 @@
                     });
                 }
             });
+        }
+
+        function gs(value) {
+            return value * CARD_GENERATE_SCALE;
+        }
+
+        function generateCard(card) {
+            const cardCtx = card.canvas.getContext('2d', { alpha: true });
+
+            const x = 0;
+            const y = 0;
+            const w = CARD_GENERATE_WIDTH;
+            const h = CARD_GENERATE_HEIGHT;
+            const title_bar_height = CARD_GENERATE_HEADER_HEIGHT;
+            const image_height = CARD_GENERATE_IMAGE_HEIGHT;
+            const text_height = CARD_GENERATE_TEXT_HEIGHT;
+
+            // Off-screen culling
+            if (x + w < 0 || x > canvas.width || y + h < 0 || y > canvas.height) return;
+
+            // Card background
+            const gradient = cardCtx.createLinearGradient(x, y, x, y + h);
+            gradient.addColorStop(0, '#331111');
+            gradient.addColorStop(1, '#191111');
+            cardCtx.fillStyle = gradient;
+            cardCtx.fillRect(x, y, w, h);
+
+            // Title bar
+            cardCtx.fillStyle = '#311';
+            cardCtx.fillRect(x, y, w, title_bar_height);
+
+            // Title
+            //cardCtx.save();
+            //cardCtx.globalCompositeOperation = 'lighter';
+            cardCtx.fillStyle = '#0DD';
+            //cardCtx.shadowColor = '#0DD';
+            cardCtx.font = `bold ${gs(25)}px Jura, sans-serif`;
+            cardCtx.textBaseline = 'middle';
+            cardCtx.textAlign = 'left';
+            //cardCtx.shadowBlur = 10;
+            cardCtx.fillText(card.title.toUpperCase(), x + gs(10), y + gs(20));
+            //cardCtx.restore();
+
+            // Theory
+            cardCtx.fillStyle = '#F55';
+            cardCtx.font = `bold ${gs(16)}px Jura, sans-serif`;
+            cardCtx.textBaseline = 'middle';
+            cardCtx.textAlign = 'left';
+            cardCtx.fillText(`${theories[card.theory_id].name.toUpperCase()} - ${sources[card.source_id].name.toUpperCase()}`, x + gs(10), y + gs(50));
+
+            let factCheckX = x + w - (card.is_fact ? gs(65) : gs(92));
+            let factCheckY = y + gs(38);
+            let factCheckW = (card.is_fact ? gs(56) : gs(83));
+            let factCheckH = gs(25);
+
+            // FactCheck Square
+            cardCtx.fillStyle = (card.is_fact ? '#040' : '#440');
+            cardCtx.fillRect(factCheckX, factCheckY, factCheckW, factCheckH);
+
+            // Fact Check Border
+            //cardCtx.save();
+            //cardCtx.globalCompositeOperation = 'lighter';
+            //cardCtx.shadowColor = (card.is_fact ? '#0F0' : '#FF0');
+            if (card.is_fact) {
+              cardCtx.strokeStyle = `rgba(0, 255, 0, 1)`;
+            } else {
+              cardCtx.strokeStyle = `rgba(255, 255, 0, 1)`;
+            }
+            //cardCtx.shadowBlur = 10;
+            cardCtx.lineWidth = gs(1.5);
+            cardCtx.strokeRect(factCheckX, factCheckY, factCheckW, factCheckH);
+            //cardCtx.restore();
+
+            // FactCheck
+            cardCtx.font = `bold ${gs(16)}px Jura, sans-serif`;
+            cardCtx.textAlign = 'right';
+            cardCtx.textBaseline = 'middle';
+            cardCtx.fillStyle = (card.is_fact ? '#0F0' : '#FF0');
+            let factCheckText = (card.is_fact ? 'FACT' : 'OPINION');
+            cardCtx.fillText(factCheckText, x + w - gs(18), y + gs(50));
+
+            // Line
+            //cardCtx.save();
+            //cardCtx.globalCompositeOperation = 'lighter';
+            cardCtx.fillStyle = '#AA3333';
+            //cardCtx.shadowColor = '#AA3333';
+            //cardCtx.shadowBlur = 10;
+            cardCtx.fillRect(x, y + title_bar_height, w, gs(2));
+            //cardCtx.restore();
+
+            // Image placeholder or real image
+            const img = images[card.thumbnail_url];
+            if (img && img.complete) {
+                cardCtx.drawImage(img, x + gs(5), y + title_bar_height + gs(5), w - gs(10), image_height - gs(10));
+            } else {
+                cardCtx.fillStyle = '#f0f0f0';
+                cardCtx.fillRect(x, y + title_bar_height, w, image_height);
+            }
+
+            // Line
+            //cardCtx.save();
+            //cardCtx.globalCompositeOperation = 'lighter';
+            cardCtx.fillStyle = '#AA3333';
+            //cardCtx.shadowColor = '#AA3333';
+            //cardCtx.shadowBlur = 10;
+            cardCtx.fillRect(x, y + title_bar_height + image_height - 2, w, gs(2));
+            //cardCtx.restore();
+
+            // Description text
+            cardCtx.fillStyle = '#F55';
+            cardCtx.font = `bold ${gs(16)}px Jura, sans-serif`;
+            cardCtx.textAlign = 'left';
+            cardCtx.textBaseline = 'middle';
+            const maxWidth = w - gs(32);
+            const lineHeight = gs(17);
+            let curY = y + title_bar_height + image_height + gs(13);
+
+            const words = card.description.split(' ');
+            let line = '';
+            for (const word of words) {
+                const testLine = line + word + ' ';
+                const metrics = cardCtx.measureText(testLine);
+                if (metrics.width > maxWidth && line !== '') {
+                    cardCtx.fillText(line, x + gs(10), curY);
+                    line = word + ' ';
+                    curY += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            if (line) cardCtx.fillText(line, x + gs(10), curY);
+
+            //cardCtx.save()
+
+            //cardCtx.globalCompositeOperation = 'lighter';
+
+            //cardCtx.shadowColor = '#ff5555';
+            cardCtx.strokeStyle = `rgba(255, 55, 55, 1)`;
+            //cardCtx.shadowBlur = 20;
+            cardCtx.lineWidth = gs(1.5);
+            cardCtx.strokeRect(x + gs(0.75), y + gs(0.75), w - gs(1.5), h - gs(1.5));
+
+            //cardCtx.restore();
         }
 
         function drawGrid() {
@@ -321,137 +475,9 @@
             const y = w2sY(card.y);
             const w = w2sL(CARD_WIDTH);
             const h = w2sL(CARD_HEIGHT);
-            const title_bar_height = w2sL(TITLE_BAR_HEIGHT);
-            const image_height = w2sL(IMAGE_HEIGHT);
-            const text_height = w2sL(TEXT_HEIGHT);
-            let blur = w2sL(10);
-
-            // Off-screen culling
             if (x + w < 0 || x > canvas.width || y + h < 0 || y > canvas.height) return;
 
-            // Card background
-            const gradient = ctx.createLinearGradient(x, y, x, y + h);
-            gradient.addColorStop(0, '#331111');
-            gradient.addColorStop(1, '#191111');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(x, y, w, h);
-
-            // Title bar
-            ctx.fillStyle = '#311';
-            ctx.fillRect(x, y, w, title_bar_height);
-
-            // Title
-            ctx.save();
-            ctx.globalCompositeOperation = 'lighter';
-            ctx.fillStyle = '#0DD';
-            ctx.shadowColor = '#0DD';
-            ctx.font = `bold ${w2sL(25)}px Jura, sans-serif`;
-            ctx.textBaseline = 'middle';
-            ctx.textAlign = 'left';
-            ctx.shadowBlur = (blur > 4 ? blur : 0);
-            ctx.fillText(card.title.toUpperCase(), x + w2sL(10), y + w2sL(20));
-            ctx.restore();
-
-            // Theory
-            ctx.fillStyle = '#F55';
-            ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
-            ctx.textBaseline = 'middle';
-            ctx.textAlign = 'left';
-            ctx.fillText(`${theories[card.theory_id].name.toUpperCase()} - ${sources[card.source_id].name.toUpperCase()}`, x + w2sL(10), y + w2sL(50));
-
-            let factCheckX = x + w - (card.is_fact ? w2sL(65) : w2sL(92));
-            let factCheckY = y + w2sL(38);
-            let factCheckW = (card.is_fact ? w2sL(56) : w2sL(83));
-            let factCheckH = w2sL(25);
-
-            // FactCheck Square
-            ctx.fillStyle = (card.is_fact ? '#040' : '#440');
-            ctx.fillRect(factCheckX, factCheckY, factCheckW, factCheckH);
-
-            // Fact Check Border
-            ctx.save();
-            ctx.globalCompositeOperation = 'lighter';
-            ctx.shadowColor = (card.is_fact ? '#0F0' : '#FF0');
-            if (card.is_fact) {
-              ctx.strokeStyle = `rgba(0, 255, 0, 1)`;
-            } else {
-              ctx.strokeStyle = `rgba(255, 255, 0, 1)`;
-            }
-            ctx.shadowBlur = (blur > 4 ? blur : 0);
-            ctx.lineWidth = w2sL(1.5);
-            ctx.strokeRect(factCheckX, factCheckY, factCheckW, factCheckH);
-            ctx.restore();
-
-            // FactCheck
-            ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'middle';
-            ctx.fillStyle = (card.is_fact ? '#0F0' : '#FF0');
-            let factCheckText = (card.is_fact ? 'FACT' : 'OPINION');
-            ctx.fillText(factCheckText, x + w - w2sL(18), y + w2sL(50));
-
-            // Line
-            ctx.save();
-            ctx.globalCompositeOperation = 'lighter';
-            ctx.fillStyle = '#AA3333';
-            ctx.shadowColor = '#AA3333';
-            ctx.shadowBlur = (blur > 4 ? blur : 0);
-            ctx.fillRect(x, y + title_bar_height, w, w2sL(1.5));
-            ctx.restore();
-
-            // Image placeholder or real image
-            const img = images[card.thumbnail_url];
-            if (img && img.complete) {
-                ctx.drawImage(img, x + w2sL(5), y + title_bar_height + w2sL(5), w - w2sL(10), image_height - w2sL(10));
-            } else {
-                ctx.fillStyle = '#f0f0f0';
-                ctx.fillRect(x, y + title_bar_height, w, image_height);
-            }
-
-            // Line
-            ctx.save();
-            ctx.globalCompositeOperation = 'lighter';
-            ctx.fillStyle = '#AA3333';
-            ctx.shadowColor = '#AA3333';
-            ctx.shadowBlur = (blur > 4 ? blur : 0);
-            ctx.fillRect(x, y + title_bar_height + image_height, w, w2sL(1.5));
-            ctx.restore();
-
-            // Description text
-            ctx.fillStyle = '#F55';
-            ctx.font = `bold ${w2sL(15)}px Jura, sans-serif`;
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'top';
-            const maxWidth = w - w2sL(32);
-            const lineHeight = w2sL(22);
-            let curY = y + title_bar_height + image_height + w2sL(12);
-
-            const words = card.description.split(' ');
-            let line = '';
-            for (const word of words) {
-                const testLine = line + word + ' ';
-                const metrics = ctx.measureText(testLine);
-                if (metrics.width > maxWidth && line !== '') {
-                    ctx.fillText(line, x + w2sL(16), curY);
-                    line = word + ' ';
-                    curY += lineHeight;
-                } else {
-                    line = testLine;
-                }
-            }
-            if (line) ctx.fillText(line, x + w2sL(16), curY);
-
-            ctx.save()
-
-            ctx.globalCompositeOperation = 'lighter';
-
-            ctx.shadowColor = '#ff5555';
-            ctx.strokeStyle = `rgba(255, 55, 55, 1)`;
-            ctx.shadowBlur = (blur > 4 ? blur : 0);
-            ctx.lineWidth = w2sL(1.5);
-            ctx.strokeRect(x - w2sL(0.75), y - w2sL(0.75), w + w2sL(1.5), h + w2sL(1.5));
-
-            ctx.restore();
+            ctx.drawImage(card.canvas, 0, 0, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT, x , y , w, h);
         }
 
         function draw() {
@@ -534,7 +560,7 @@
                 const sx = w2sX(card.x);
                 const sy = w2sY(card.y);
                 const sw = w2sL(CARD_WIDTH);
-                const titleH = w2sL(TITLE_BAR_HEIGHT);
+                const titleH = w2sL(CARD_HEADER_HEIGHT);
 
                 if (mx >= sx && mx <= sx + sw && my >= sy && my <= sy + titleH) {
                     draggedCard = card;
@@ -650,9 +676,9 @@
 
             for (const card of json.cards) {
                 const sx = w2sX(card.x);
-                const sy = w2sY(card.y + TITLE_BAR_HEIGHT);
+                const sy = w2sY(card.y + CARD_HEADER_HEIGHT);
                 const sw = w2sL(CARD_WIDTH);
-                const sh = w2sL(IMAGE_HEIGHT);
+                const sh = w2sL(CARD_IMAGE_HEIGHT);
 
                 if (mx >= sx && mx <= sx + sw && my >= sy && my <= sy + sh) {
                     fullscreenImage.src = card.image_url;
