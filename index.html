@@ -175,7 +175,10 @@
                         const img = new Image();
                         img.src = card.thumbnail_url;
                         img.onload = () => {
-                            generateCard(card);
+                            generateCard(card, 0, 0, 1);
+                            generateCard(card, CARD_GENERATE_WIDTH, 0, 0.5);
+                            generateCard(card, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT / 2, 0.25);
+                            generateCard(card, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT / 2 + CARD_GENERATE_HEIGHT / 4, 0.1);
                             needsDraw = true;
                             draw();
                         };
@@ -201,7 +204,7 @@
             json.cards.forEach(card => {
                 cardsByTheory[card.theory_id].push(card);
                 card.canvas = document.createElement('canvas');
-                card.canvas.width = CARD_GENERATE_WIDTH;
+                card.canvas.width = CARD_GENERATE_WIDTH + CARD_GENERATE_WIDTH / 2;
                 card.canvas.height = CARD_GENERATE_HEIGHT;
             });
 
@@ -262,19 +265,16 @@
             return value * CARD_GENERATE_SCALE;
         }
 
-        function generateCard(card) {
+        function generateCard(card, offsetX, offsetY, cardScale) {
             const cardCtx = card.canvas.getContext('2d', { alpha: true });
 
-            const x = 0;
-            const y = 0;
-            const w = CARD_GENERATE_WIDTH;
-            const h = CARD_GENERATE_HEIGHT;
-            const title_bar_height = CARD_GENERATE_HEADER_HEIGHT;
-            const image_height = CARD_GENERATE_IMAGE_HEIGHT;
-            const text_height = CARD_GENERATE_TEXT_HEIGHT;
-
-            // Off-screen culling
-            if (x + w < 0 || x > canvas.width || y + h < 0 || y > canvas.height) return;
+            const x = offsetX;
+            const y = offsetY;
+            const w = CARD_GENERATE_WIDTH * cardScale;
+            const h = CARD_GENERATE_HEIGHT * cardScale;
+            const title_bar_height = CARD_GENERATE_HEADER_HEIGHT * cardScale;
+            const image_height = CARD_GENERATE_IMAGE_HEIGHT * cardScale;
+            const text_height = CARD_GENERATE_TEXT_HEIGHT * cardScale;
 
             // Card background
             const gradient = cardCtx.createLinearGradient(x, y, x, y + h);
@@ -292,24 +292,24 @@
             //cardCtx.globalCompositeOperation = 'lighter';
             cardCtx.fillStyle = '#0DD';
             //cardCtx.shadowColor = '#0DD';
-            cardCtx.font = `bold ${gs(25)}px Jura, sans-serif`;
+            cardCtx.font = `bold ${25 * cardScale}px Jura, sans-serif`;
             cardCtx.textBaseline = 'middle';
             cardCtx.textAlign = 'left';
             //cardCtx.shadowBlur = 10;
-            cardCtx.fillText(card.title.toUpperCase(), x + gs(10), y + gs(20));
+            cardCtx.fillText(card.title.toUpperCase(), x + 10 * cardScale, y + 20 * cardScale);
             //cardCtx.restore();
 
             // Theory
             cardCtx.fillStyle = '#F55';
-            cardCtx.font = `bold ${gs(16)}px Jura, sans-serif`;
+            cardCtx.font = `bold ${16 * cardScale}px Jura, sans-serif`;
             cardCtx.textBaseline = 'middle';
             cardCtx.textAlign = 'left';
-            cardCtx.fillText(`${theories[card.theory_id].name.toUpperCase()} - ${sources[card.source_id].name.toUpperCase()}`, x + gs(10), y + gs(50));
+            cardCtx.fillText(`${theories[card.theory_id].name.toUpperCase()} - ${sources[card.source_id].name.toUpperCase()}`, x + 10 * cardScale, y + 50 * cardScale);
 
-            let factCheckX = x + w - (card.is_fact ? gs(65) : gs(92));
-            let factCheckY = y + gs(38);
-            let factCheckW = (card.is_fact ? gs(56) : gs(83));
-            let factCheckH = gs(25);
+            let factCheckX = x + w - (card.is_fact ? 65 * cardScale : 92 * cardScale);
+            let factCheckY = y + 38 * cardScale;
+            let factCheckW = (card.is_fact ? 56 * cardScale : 83 * cardScale);
+            let factCheckH = 25 * cardScale;
 
             // FactCheck Square
             cardCtx.fillStyle = (card.is_fact ? '#040' : '#440');
@@ -325,17 +325,17 @@
               cardCtx.strokeStyle = `rgba(255, 255, 0, 1)`;
             }
             //cardCtx.shadowBlur = 10;
-            cardCtx.lineWidth = gs(1.5);
+            cardCtx.lineWidth = 1.5 * cardScale;
             cardCtx.strokeRect(factCheckX, factCheckY, factCheckW, factCheckH);
             //cardCtx.restore();
 
             // FactCheck
-            cardCtx.font = `bold ${gs(16)}px Jura, sans-serif`;
+            cardCtx.font = `bold ${16 * cardScale}px Jura, sans-serif`;
             cardCtx.textAlign = 'right';
             cardCtx.textBaseline = 'middle';
             cardCtx.fillStyle = (card.is_fact ? '#0F0' : '#FF0');
             let factCheckText = (card.is_fact ? 'FACT' : 'OPINION');
-            cardCtx.fillText(factCheckText, x + w - gs(18), y + gs(50));
+            cardCtx.fillText(factCheckText, x + w - 18 * cardScale, y + 50 * cardScale);
 
             // Line
             //cardCtx.save();
@@ -343,13 +343,13 @@
             cardCtx.fillStyle = '#AA3333';
             //cardCtx.shadowColor = '#AA3333';
             //cardCtx.shadowBlur = 10;
-            cardCtx.fillRect(x, y + title_bar_height, w, gs(2));
+            cardCtx.fillRect(x, y + title_bar_height, w, 2 * cardScale);
             //cardCtx.restore();
 
             // Image placeholder or real image
             const img = images[card.thumbnail_url];
             if (img && img.complete) {
-                cardCtx.drawImage(img, x + gs(5), y + title_bar_height + gs(5), w - gs(10), image_height - gs(10));
+                cardCtx.drawImage(img, x + 5 * cardScale, y + title_bar_height + 5 * cardScale, w - 10 * cardScale, image_height - 10 * cardScale);
             } else {
                 cardCtx.fillStyle = '#f0f0f0';
                 cardCtx.fillRect(x, y + title_bar_height, w, image_height);
@@ -361,17 +361,17 @@
             cardCtx.fillStyle = '#AA3333';
             //cardCtx.shadowColor = '#AA3333';
             //cardCtx.shadowBlur = 10;
-            cardCtx.fillRect(x, y + title_bar_height + image_height - 2, w, gs(2));
+            cardCtx.fillRect(x, y + title_bar_height + image_height - 2 * cardScale, w, 2 * cardScale);
             //cardCtx.restore();
 
             // Description text
             cardCtx.fillStyle = '#F55';
-            cardCtx.font = `bold ${gs(16)}px Jura, sans-serif`;
+            cardCtx.font = `bold ${16 * cardScale}px Jura, sans-serif`;
             cardCtx.textAlign = 'left';
             cardCtx.textBaseline = 'middle';
-            const maxWidth = w - gs(32);
-            const lineHeight = gs(17);
-            let curY = y + title_bar_height + image_height + gs(13);
+            const maxWidth = w - 32 * cardScale;
+            const lineHeight = 17 * cardScale;
+            let curY = y + title_bar_height + image_height + 13 * cardScale;
 
             const words = card.description.split(' ');
             let line = '';
@@ -379,14 +379,14 @@
                 const testLine = line + word + ' ';
                 const metrics = cardCtx.measureText(testLine);
                 if (metrics.width > maxWidth && line !== '') {
-                    cardCtx.fillText(line, x + gs(10), curY);
+                    cardCtx.fillText(line, x + 10 * cardScale, curY);
                     line = word + ' ';
                     curY += lineHeight;
                 } else {
                     line = testLine;
                 }
             }
-            if (line) cardCtx.fillText(line, x + gs(10), curY);
+            if (line) cardCtx.fillText(line, x + 10 * cardScale, curY);
 
             //cardCtx.save()
 
@@ -395,8 +395,8 @@
             //cardCtx.shadowColor = '#ff5555';
             cardCtx.strokeStyle = `rgba(255, 55, 55, 1)`;
             //cardCtx.shadowBlur = 20;
-            cardCtx.lineWidth = gs(1.5);
-            cardCtx.strokeRect(x + gs(0.75), y + gs(0.75), w - gs(1.5), h - gs(1.5));
+            cardCtx.lineWidth = 1.5 * cardScale;
+            cardCtx.strokeRect(x + 0.75 * cardScale, y + 0.75 * cardScale, w - 1.5 * cardScale, h - 1.5 * cardScale);
 
             //cardCtx.restore();
         }
@@ -471,13 +471,21 @@
         }
 
         function drawCard(card) {
-            const x = w2sX(card.x);
-            const y = w2sY(card.y);
-            const w = w2sL(CARD_WIDTH);
-            const h = w2sL(CARD_HEIGHT);
+            const x = Math.round(w2sX(card.x));
+            const y = Math.round(w2sY(card.y));
+            const w = Math.round(w2sL(CARD_WIDTH));
+            const h = Math.round(w2sL(CARD_HEIGHT));
             if (x + w < 0 || x > canvas.width || y + h < 0 || y > canvas.height) return;
 
-            ctx.drawImage(card.canvas, 0, 0, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT, x , y , w, h);
+            if (scale > 0.8) {
+                ctx.drawImage(card.canvas, 0, 0, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT, x , y , w, h);
+            } else if (scale > 0.5) {
+                ctx.drawImage(card.canvas, CARD_GENERATE_WIDTH, 0, CARD_GENERATE_WIDTH / 2, CARD_GENERATE_HEIGHT / 2, x , y , w, h);
+            } else if (scale > 0.2) {
+                ctx.drawImage(card.canvas, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT / 2, CARD_GENERATE_WIDTH / 4, CARD_GENERATE_HEIGHT / 4, x , y , w, h);
+            } else {
+                ctx.drawImage(card.canvas, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT / 2 + CARD_GENERATE_HEIGHT / 4, CARD_GENERATE_WIDTH / 10, CARD_GENERATE_HEIGHT / 10, x , y , w, h);
+            }
         }
 
         function draw() {
