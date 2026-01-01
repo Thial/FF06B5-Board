@@ -19,15 +19,13 @@
 	    cursor: initial;
         }
 
-        #controls {
-            position: absolute;
-            top: 50px;
-            left: 10px;
-            z-index: 100;
-        }
         #resetBtn {
-            background: white;
-            border: 1px solid #ccc;
+            position: absolute;
+            top: 10px;
+            left:50%;
+            transform: translate(-50%, 0%);
+            background: #222;
+            border: 1px solid #444;
             padding: 10px 16px;
             border-radius: 6px;
             font-size: 14px;
@@ -35,19 +33,7 @@
             font-family: 'Jura';
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        #resetBtn:hover { background: #f8f8f8; }
-
-        #info {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(255,255,255,0.8);
-            padding: 8px 12px;
-            font-size: 14px;
-            border-radius: 5px;
-            pointer-events: none;
-            z-index: 100;
-        }
+        #resetBtn:hover { background: #333; }
 
         #fullscreenModal {
             display: none;
@@ -86,10 +72,7 @@
 <body>
     <canvas id="canvas"></canvas>
 
-    <div id="info">Drag canvas to pan • Scroll to zoom • Drag card headers • Click images to enlarge</div>
-    <div id="controls">
-        <button id="resetBtn">Reset</button>
-    </div>
+    <button id="resetBtn">Reset</button>
 
     <div id="fullscreenModal">
         <div id="closeModal">×</div>
@@ -256,7 +239,7 @@
             ctx.textBaseline = 'top';
             const maxWidth = CARD_WIDTH - 60;
             const lineHeight = 16;
-            let offsetY = TITLE_BAR_HEIGHT + IMAGE_HEIGHT + 10;
+            let offsetY = TITLE_BAR_HEIGHT + IMAGE_HEIGHT + 7;
 
             const words = card.description.split(' ');
             let line = '';
@@ -298,7 +281,7 @@
                         offset_y: currentOffsetY,
                         text: word
                     });
-                    currentOffsetX += wordSize + 10;
+                    currentOffsetX += wordSize + 12;
                 });
             });
         }
