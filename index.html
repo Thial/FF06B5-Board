@@ -123,20 +123,13 @@
         const MIN_SPACING = 40;
         const MAJOR_MULT = 4;
 
-        const CARD_HEADER_HEIGHT = 70;
-        const CARD_IMAGE_HEIGHT = 400;
-        const CARD_TEXT_HEIGHT = 230;
+        const TITLE_BAR_HEIGHT = 70;
+        const IMAGE_HEIGHT = 400;
+        const TEXT_HEIGHT = 230;
         const CARD_WIDTH = 400;
-        const CARD_HEIGHT = CARD_HEADER_HEIGHT + CARD_IMAGE_HEIGHT + CARD_TEXT_HEIGHT;
+        const CARD_HEIGHT = TITLE_BAR_HEIGHT + IMAGE_HEIGHT + TEXT_HEIGHT;
         const CARD_GAP_X = CARD_WIDTH + 350;
         const CARD_GAP_Y = CARD_HEIGHT + 100;
-
-        const CARD_GENERATE_SCALE = 1;
-        const CARD_GENERATE_HEADER_HEIGHT = CARD_HEADER_HEIGHT * CARD_GENERATE_SCALE;
-        const CARD_GENERATE_IMAGE_HEIGHT = CARD_IMAGE_HEIGHT * CARD_GENERATE_SCALE;
-        const CARD_GENERATE_TEXT_HEIGHT = CARD_TEXT_HEIGHT * CARD_GENERATE_SCALE;
-        const CARD_GENERATE_WIDTH = CARD_WIDTH * CARD_GENERATE_SCALE;
-        const CARD_GENERATE_HEIGHT = CARD_HEIGHT * CARD_GENERATE_SCALE;
 
         let needsDraw = true;
 
@@ -175,10 +168,6 @@
                         const img = new Image();
                         img.src = card.thumbnail_url;
                         img.onload = () => {
-                            generateCard(card, 0, 0, 1);
-                            generateCard(card, CARD_GENERATE_WIDTH, 0, 0.5);
-                            generateCard(card, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT / 2, 0.25);
-                            generateCard(card, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT / 2 + CARD_GENERATE_HEIGHT / 4, 0.1);
                             needsDraw = true;
                             draw();
                         };
@@ -203,9 +192,8 @@
 
             json.cards.forEach(card => {
                 cardsByTheory[card.theory_id].push(card);
-                card.canvas = document.createElement('canvas');
-                card.canvas.width = CARD_GENERATE_WIDTH + CARD_GENERATE_WIDTH / 2;
-                card.canvas.height = CARD_GENERATE_HEIGHT;
+                calculateDescriptionLines(card);
+                calculateDescriptionWords(card);
             });
 
             json.theories.forEach(theory => {
@@ -261,144 +249,58 @@
             });
         }
 
-        function gs(value) {
-            return value * CARD_GENERATE_SCALE;
-        }
-
-        function generateCard(card, offsetX, offsetY, cardScale) {
-            const cardCtx = card.canvas.getContext('2d', { alpha: true });
-
-            const x = offsetX;
-            const y = offsetY;
-            const w = CARD_GENERATE_WIDTH * cardScale;
-            const h = CARD_GENERATE_HEIGHT * cardScale;
-            const title_bar_height = CARD_GENERATE_HEADER_HEIGHT * cardScale;
-            const image_height = CARD_GENERATE_IMAGE_HEIGHT * cardScale;
-            const text_height = CARD_GENERATE_TEXT_HEIGHT * cardScale;
-
-            // Card background
-            const gradient = cardCtx.createLinearGradient(x, y, x, y + h);
-            gradient.addColorStop(0, '#331111');
-            gradient.addColorStop(1, '#191111');
-            cardCtx.fillStyle = gradient;
-            cardCtx.fillRect(x, y, w, h);
-
-            // Title bar
-            cardCtx.fillStyle = '#311';
-            cardCtx.fillRect(x, y, w, title_bar_height);
-
-            // Title
-            //cardCtx.save();
-            //cardCtx.globalCompositeOperation = 'lighter';
-            cardCtx.fillStyle = '#0DD';
-            //cardCtx.shadowColor = '#0DD';
-            cardCtx.font = `bold ${25 * cardScale}px Jura, sans-serif`;
-            cardCtx.textBaseline = 'middle';
-            cardCtx.textAlign = 'left';
-            //cardCtx.shadowBlur = 10;
-            cardCtx.fillText(card.title.toUpperCase(), x + 10 * cardScale, y + 20 * cardScale);
-            //cardCtx.restore();
-
-            // Theory
-            cardCtx.fillStyle = '#F55';
-            cardCtx.font = `bold ${16 * cardScale}px Jura, sans-serif`;
-            cardCtx.textBaseline = 'middle';
-            cardCtx.textAlign = 'left';
-            cardCtx.fillText(`${theories[card.theory_id].name.toUpperCase()} - ${sources[card.source_id].name.toUpperCase()}`, x + 10 * cardScale, y + 50 * cardScale);
-
-            let factCheckX = x + w - (card.is_fact ? 65 * cardScale : 92 * cardScale);
-            let factCheckY = y + 38 * cardScale;
-            let factCheckW = (card.is_fact ? 56 * cardScale : 83 * cardScale);
-            let factCheckH = 25 * cardScale;
-
-            // FactCheck Square
-            cardCtx.fillStyle = (card.is_fact ? '#040' : '#440');
-            cardCtx.fillRect(factCheckX, factCheckY, factCheckW, factCheckH);
-
-            // Fact Check Border
-            //cardCtx.save();
-            //cardCtx.globalCompositeOperation = 'lighter';
-            //cardCtx.shadowColor = (card.is_fact ? '#0F0' : '#FF0');
-            if (card.is_fact) {
-              cardCtx.strokeStyle = `rgba(0, 255, 0, 1)`;
-            } else {
-              cardCtx.strokeStyle = `rgba(255, 255, 0, 1)`;
-            }
-            //cardCtx.shadowBlur = 10;
-            cardCtx.lineWidth = 1.5 * cardScale;
-            cardCtx.strokeRect(factCheckX, factCheckY, factCheckW, factCheckH);
-            //cardCtx.restore();
-
-            // FactCheck
-            cardCtx.font = `bold ${16 * cardScale}px Jura, sans-serif`;
-            cardCtx.textAlign = 'right';
-            cardCtx.textBaseline = 'middle';
-            cardCtx.fillStyle = (card.is_fact ? '#0F0' : '#FF0');
-            let factCheckText = (card.is_fact ? 'FACT' : 'OPINION');
-            cardCtx.fillText(factCheckText, x + w - 18 * cardScale, y + 50 * cardScale);
-
-            // Line
-            //cardCtx.save();
-            //cardCtx.globalCompositeOperation = 'lighter';
-            cardCtx.fillStyle = '#AA3333';
-            //cardCtx.shadowColor = '#AA3333';
-            //cardCtx.shadowBlur = 10;
-            cardCtx.fillRect(x, y + title_bar_height, w, 2 * cardScale);
-            //cardCtx.restore();
-
-            // Image placeholder or real image
-            const img = images[card.thumbnail_url];
-            if (img && img.complete) {
-                cardCtx.drawImage(img, x + 5 * cardScale, y + title_bar_height + 5 * cardScale, w - 10 * cardScale, image_height - 10 * cardScale);
-            } else {
-                cardCtx.fillStyle = '#f0f0f0';
-                cardCtx.fillRect(x, y + title_bar_height, w, image_height);
-            }
-
-            // Line
-            //cardCtx.save();
-            //cardCtx.globalCompositeOperation = 'lighter';
-            cardCtx.fillStyle = '#AA3333';
-            //cardCtx.shadowColor = '#AA3333';
-            //cardCtx.shadowBlur = 10;
-            cardCtx.fillRect(x, y + title_bar_height + image_height - 2 * cardScale, w, 2 * cardScale);
-            //cardCtx.restore();
-
-            // Description text
-            cardCtx.fillStyle = '#F55';
-            cardCtx.font = `bold ${16 * cardScale}px Jura, sans-serif`;
-            cardCtx.textAlign = 'left';
-            cardCtx.textBaseline = 'middle';
-            const maxWidth = w - 32 * cardScale;
-            const lineHeight = 17 * cardScale;
-            let curY = y + title_bar_height + image_height + 13 * cardScale;
+        function calculateDescriptionLines(card) {
+            card.lines = [];
+            ctx.font = `bold 15px Jura, sans-serif`;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            const maxWidth = CARD_WIDTH - 60;
+            const lineHeight = 16;
+            let offsetY = TITLE_BAR_HEIGHT + IMAGE_HEIGHT + 10;
 
             const words = card.description.split(' ');
             let line = '';
             for (const word of words) {
                 const testLine = line + word + ' ';
-                const metrics = cardCtx.measureText(testLine);
+                const metrics = ctx.measureText(testLine);
                 if (metrics.width > maxWidth && line !== '') {
-                    cardCtx.fillText(line, x + 10 * cardScale, curY);
+                    card.lines.push({
+                        offset_x: 8,
+                        offset_y: offsetY,
+                        text: line,
+                    });
                     line = word + ' ';
-                    curY += lineHeight;
+                    offsetY += lineHeight;
                 } else {
                     line = testLine;
                 }
             }
-            if (line) cardCtx.fillText(line, x + 10 * cardScale, curY);
+            if (line) card.lines.push({
+                        offset_x: 8,
+                        offset_y: offsetY,
+                        text: line,
+                    });
+        }
 
-            //cardCtx.save()
-
-            //cardCtx.globalCompositeOperation = 'lighter';
-
-            //cardCtx.shadowColor = '#ff5555';
-            cardCtx.strokeStyle = `rgba(255, 55, 55, 1)`;
-            //cardCtx.shadowBlur = 20;
-            cardCtx.lineWidth = 1.5 * cardScale;
-            cardCtx.strokeRect(x + 0.75 * cardScale, y + 0.75 * cardScale, w - 1.5 * cardScale, h - 1.5 * cardScale);
-
-            //cardCtx.restore();
+        function calculateDescriptionWords(card) {
+            ctx.font = `bold 15px Jura, sans-serif`;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            card.lines.forEach(line => {
+                const words = line.text.split(' ');
+                line.words = [];
+                let currentOffsetX = line.offset_x;
+                let currentOffsetY = line.offset_y;
+                words.forEach(word => {
+                    const wordSize = ctx.measureText(word).width;
+                    line.words.push({
+                        offset_x: currentOffsetX,
+                        offset_y: currentOffsetY,
+                        text: word
+                    });
+                    currentOffsetX += wordSize + 10;
+                });
+            });
         }
 
         function drawGrid() {
@@ -471,21 +373,101 @@
         }
 
         function drawCard(card) {
-            const x = Math.round(w2sX(card.x));
-            const y = Math.round(w2sY(card.y));
-            const w = Math.round(w2sL(CARD_WIDTH));
-            const h = Math.round(w2sL(CARD_HEIGHT));
+            const x = w2sX(card.x);
+            const y = w2sY(card.y);
+            const w = w2sL(CARD_WIDTH);
+            const h = w2sL(CARD_HEIGHT);
+            const title_bar_height = w2sL(TITLE_BAR_HEIGHT);
+            const image_height = w2sL(IMAGE_HEIGHT);
+            const text_height = w2sL(TEXT_HEIGHT);
+
+            // Off-screen culling
             if (x + w < 0 || x > canvas.width || y + h < 0 || y > canvas.height) return;
 
-            if (scale > 0.8) {
-                ctx.drawImage(card.canvas, 0, 0, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT, x , y , w, h);
-            } else if (scale > 0.5) {
-                ctx.drawImage(card.canvas, CARD_GENERATE_WIDTH, 0, CARD_GENERATE_WIDTH / 2, CARD_GENERATE_HEIGHT / 2, x , y , w, h);
-            } else if (scale > 0.2) {
-                ctx.drawImage(card.canvas, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT / 2, CARD_GENERATE_WIDTH / 4, CARD_GENERATE_HEIGHT / 4, x , y , w, h);
+            // Card background
+            const gradient = ctx.createLinearGradient(x, y, x, y + h);
+            gradient.addColorStop(0, '#331111');
+            gradient.addColorStop(1, '#191111');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(x, y, w, h);
+
+            // Title bar
+            ctx.fillStyle = '#311';
+            ctx.fillRect(x, y, w, title_bar_height);
+
+            // Title
+            ctx.fillStyle = '#0DD';
+            ctx.font = `bold ${w2sL(25)}px Jura, sans-serif`;
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'left';
+            ctx.fillText(card.title.toUpperCase(), x + w2sL(10), y + w2sL(20));
+
+            // Theory
+            ctx.fillStyle = '#F55';
+            ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'left';
+            ctx.fillText(`${theories[card.theory_id].name.toUpperCase()} - ${sources[card.source_id].name.toUpperCase()}`, x + w2sL(10), y + w2sL(50));
+
+            let factCheckX = x + w - (card.is_fact ? w2sL(65) : w2sL(92));
+            let factCheckY = y + w2sL(38);
+            let factCheckW = (card.is_fact ? w2sL(56) : w2sL(83));
+            let factCheckH = w2sL(25);
+
+            // FactCheck Square
+            ctx.fillStyle = (card.is_fact ? '#040' : '#440');
+            ctx.fillRect(factCheckX, factCheckY, factCheckW, factCheckH);
+
+            // Fact Check Border
+            if (card.is_fact) {
+              ctx.strokeStyle = `rgba(0, 255, 0, 1)`;
             } else {
-                ctx.drawImage(card.canvas, CARD_GENERATE_WIDTH, CARD_GENERATE_HEIGHT / 2 + CARD_GENERATE_HEIGHT / 4, CARD_GENERATE_WIDTH / 10, CARD_GENERATE_HEIGHT / 10, x , y , w, h);
+              ctx.strokeStyle = `rgba(255, 255, 0, 1)`;
             }
+            ctx.lineWidth = w2sL(1.5);
+            ctx.strokeRect(factCheckX, factCheckY, factCheckW, factCheckH);
+
+            // FactCheck
+            ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = (card.is_fact ? '#0F0' : '#FF0');
+            let factCheckText = (card.is_fact ? 'FACT' : 'OPINION');
+            ctx.fillText(factCheckText, x + w - w2sL(18), y + w2sL(50));
+
+            // Line
+            ctx.fillStyle = '#AA3333';
+            ctx.fillRect(x, y + title_bar_height, w, w2sL(1.5));
+
+            // Image placeholder or real image
+            const img = images[card.thumbnail_url];
+            if (img && img.complete) {
+                ctx.drawImage(img, x + w2sL(5), y + title_bar_height + w2sL(5), w - w2sL(10), image_height - w2sL(10));
+            } else {
+                ctx.fillStyle = '#f0f0f0';
+                ctx.fillRect(x, y + title_bar_height, w, image_height);
+            }
+
+            // Line
+            ctx.fillStyle = '#AA3333';
+            ctx.fillRect(x, y + title_bar_height + image_height, w, w2sL(1.5));
+
+            // Description text
+            ctx.fillStyle = '#F55';
+            ctx.font = `bold ${w2sL(15)}px Jura, sans-serif`;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+
+            card.lines.forEach(line => {
+                line.words.forEach(word => {
+                    ctx.fillText(word.text, x + w2sL(word.offset_x), y + w2sL(word.offset_y));
+                });
+            });
+
+            // Border
+            ctx.strokeStyle = `rgba(255, 55, 55, 1)`;
+            ctx.lineWidth = w2sL(1.5);
+            ctx.strokeRect(x - w2sL(0.75), y - w2sL(0.75), w + w2sL(1.5), h + w2sL(1.5));
         }
 
         function draw() {
@@ -568,7 +550,7 @@
                 const sx = w2sX(card.x);
                 const sy = w2sY(card.y);
                 const sw = w2sL(CARD_WIDTH);
-                const titleH = w2sL(CARD_HEADER_HEIGHT);
+                const titleH = w2sL(TITLE_BAR_HEIGHT);
 
                 if (mx >= sx && mx <= sx + sw && my >= sy && my <= sy + titleH) {
                     draggedCard = card;
@@ -684,9 +666,9 @@
 
             for (const card of json.cards) {
                 const sx = w2sX(card.x);
-                const sy = w2sY(card.y + CARD_HEADER_HEIGHT);
+                const sy = w2sY(card.y + TITLE_BAR_HEIGHT);
                 const sw = w2sL(CARD_WIDTH);
-                const sh = w2sL(CARD_IMAGE_HEIGHT);
+                const sh = w2sL(IMAGE_HEIGHT);
 
                 if (mx >= sx && mx <= sx + sw && my >= sy && my <= sy + sh) {
                     fullscreenImage.src = card.image_url;
