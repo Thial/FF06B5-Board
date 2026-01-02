@@ -411,8 +411,7 @@
             const theoryX = w2sX(theory.x + theoryHalfSizeX);
             const theoryY = w2sY(theory.y - 200);
             ctx.save();
-            ctx.globalCompositeOperation = 'screen';
-            ctx.fillStyle = '#733';
+            ctx.fillStyle = '#D55';
             ctx.font = `bold ${w2sL(400)}px Jura, sans-serif`;
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'center';
@@ -424,7 +423,7 @@
             theory.sub_theories.forEach(subTheory => {
                 const subTheoryX = w2sX(subTheory.x + subTheoryHalfSizeX);
                 const subTheoryY = w2sY(subTheory.y - 200);
-                ctx.fillStyle = '#622';
+                ctx.fillStyle = '#C44';
                 ctx.font = `bold ${w2sL(200)}px Jura, sans-serif`;
                 ctx.textBaseline = 'middle';
                 ctx.textAlign = 'center';
@@ -445,8 +444,10 @@
             const title_bar_height = w2sL(TITLE_BAR_HEIGHT);
             const image_height = w2sL(IMAGE_HEIGHT);
             const text_height = w2sL(TEXT_HEIGHT);
+            const zoomed_enough = scale > 0.2;
 
             if (x + w < 0 || x > canvas.width || y + h < 0 || y > canvas.height) return;
+
 
             // Card background
             const gradient = ctx.createLinearGradient(x, y, x, y + h);
@@ -459,33 +460,41 @@
             ctx.fillStyle = '#311';
             ctx.fillRect(x, y, w, title_bar_height);
 
-            // Title
-            ctx.fillStyle = '#0DD';
-            ctx.font = `bold ${w2sL(25)}px Jura, sans-serif`;
-            ctx.textBaseline = 'middle';
-            ctx.textAlign = 'left';
-            ctx.fillText(card.title.toUpperCase(), x + w2sL(10), y + w2sL(16));
+            if (zoomed_enough) {
+                ctx.globalAlpha = Math.min(1, (scale - 0.2) * 3);
 
-            // Theory
-            ctx.fillStyle = '#F55';
-            ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
-            ctx.textBaseline = 'middle';
-            ctx.textAlign = 'left';
-            ctx.fillText(`${card.theory_name.toUpperCase()} - ${card.sub_theory_name.toUpperCase()}`, x + w2sL(10), y + w2sL(38));
+                // Title
+                ctx.fillStyle = '#0DD';
+                ctx.font = `bold ${w2sL(25)}px Jura, sans-serif`;
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'left';
+                ctx.fillText(card.title.toUpperCase(), x + w2sL(10), y + w2sL(16));
 
-            // Source
-            ctx.fillStyle = '#F55';
-            ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
-            ctx.textBaseline = 'middle';
-            ctx.textAlign = 'left';
-            ctx.fillText(`${card.source_name.toUpperCase()}`, x + w2sL(10), y + w2sL(58));
+                // Theory
+                ctx.fillStyle = '#F55';
+                ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'left';
+                ctx.fillText(`${card.theory_name.toUpperCase()} - ${card.sub_theory_name.toUpperCase()}`, x + w2sL(10), y + w2sL(38));
 
-            ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'middle';
-            ctx.fillStyle = (card.is_fact ? '#0F0' : '#FF0');
-            let factCheckText = (card.is_fact ? 'FACT' : 'OPINION');
-            ctx.fillText(factCheckText, x + w - w2sL(10), y + w2sL(58));
+                // Source
+                ctx.fillStyle = '#F55';
+                ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'left';
+                ctx.fillText(`${card.source_name.toUpperCase()}`, x + w2sL(10), y + w2sL(58));
+
+                // Fact Check
+                ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = (card.is_fact ? '#0F0' : '#FF0');
+                let factCheckText = (card.is_fact ? 'FACT' : 'OPINION');
+                ctx.fillText(factCheckText, x + w - w2sL(10), y + w2sL(58));
+
+                ctx.globalAlpha = 1;
+            }
+
 
             // Line
             ctx.fillStyle = '#AA3333';
@@ -504,17 +513,23 @@
             ctx.fillStyle = '#AA3333';
             ctx.fillRect(x, y + title_bar_height + image_height, w, w2sL(1.5));
 
-            // Description text
-            ctx.fillStyle = '#F55';
-            ctx.font = `bold ${w2sL(15)}px Jura, sans-serif`;
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'top';
+            if (zoomed_enough) {
+                ctx.globalAlpha = Math.min(1, (scale - 0.2) * 3);
 
-            card.lines.forEach(line => {
-                line.words.forEach(word => {
-                    ctx.fillText(word.text, x + w2sL(word.offset_x), y + w2sL(word.offset_y));
+                // Description text
+                ctx.fillStyle = '#F55';
+                ctx.font = `bold ${w2sL(15)}px Jura, sans-serif`;
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'top';
+
+                card.lines.forEach(line => {
+                    line.words.forEach(word => {
+                        ctx.fillText(word.text, x + w2sL(word.offset_x), y + w2sL(word.offset_y));
+                    });
                 });
-            });
+
+                ctx.globalAlpha = 1;
+            }
 
             // Border
             ctx.strokeStyle = `rgba(255, 55, 55, 1)`;

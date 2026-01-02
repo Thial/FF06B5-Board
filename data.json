@@ -182,7 +182,7 @@
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Tdet Tribe Symbol",
-      "description": "This symbol is visible in both Tesham Mutna and Unseen Elder's cave. What's interesting here is that the symbol uses the exact same snake as on the vampiric ouroboros.",
+      "description": "The symbol of the vampiric Tdet tribe visible in both Tesham Mutna and Unseen Elder's cave. What's interesting here is that the symbol uses the exact same snake as on the vampiric ouroboros.",
       "thumbnail_url": "Images/Thumbnail/33bdacf3-2f6a-47c5-afba-34a21eff4aee.jpg",
       "image_url": "Images/Full/33bdacf3-2f6a-47c5-afba-34a21eff4aee.jpg"
     },
@@ -191,8 +191,8 @@
       "theory_id": 13,
       "sub_theory_id": 1,
       "source_id": 3,
-      "title": "Unseen Elder Ouroboros",
-      "description": "This symbol is visible above an arch when leaving the cave with the inverted gravity inside of the Unseen Elder's cave. This is the pure vampiric ouroboros with its base colors, and without any text.",
+      "title": "Unseen Elder's Cave",
+      "description": "Vampiric ouroboros visible above an arch when leaving the cave with the inverted gravity inside of the Unseen Elder's cave. This is the pure vampiric ouroboros with its base colors, and without any text.",
       "thumbnail_url": "Images/Thumbnail/01c5de84-e822-4d3e-a8ef-044d5ccd47e9.jpg",
       "image_url": "Images/Full/01c5de84-e822-4d3e-a8ef-044d5ccd47e9.jpg"
     },
@@ -201,8 +201,8 @@
       "theory_id": 13,
       "sub_theory_id": 1,
       "source_id": 3,
-      "title": "Tesham Mutna 1",
-      "description": "This symbol is visible in the chamber at the very bottom of Tesham Mutna. The symbol is partially covered by rubble and it's rather large so you can easily miss it. The chamber in which it was located was used as jail for vampire Khagmar.",
+      "title": "Tesham Mutna Chamber",
+      "description": "Another vampiric ouroboros visible in the chamber at the very bottom of Tesham Mutna. The symbol is partially covered by rubble and it's rather large so you can easily miss it. The chamber in which it was located was used as jail for vampire Khagmar.",
       "thumbnail_url": "Images/Thumbnail/bb2a2ec8-b5ee-4b68-9951-3e774b20b407.jpg",
       "image_url": "Images/Full/bb2a2ec8-b5ee-4b68-9951-3e774b20b407.jpg"
     },
@@ -212,9 +212,39 @@
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Regis's Glove",
-      "description": "This symbol is visible on Regis's glove which suggests that the symbol has a deep meaning, and that Regis is proud of that symbol by displaying it in such a manner.",
+      "description": "Visible on Regis's glove which suggests that the symbol has a deep cultural meaning since it's a part of his attire.",
       "thumbnail_url": "Images/Thumbnail/a7722363-8253-42b6-9330-5a24a214094e.jpg",
       "image_url": "Images/Full/a7722363-8253-42b6-9330-5a24a214094e.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 1,
+      "source_id": 3,
+      "title": "Regis's Bag",
+      "description": "Visible on Regis's bag which suggests that the symbol has a deep cultural meaning since it's a part of his attire. Unlike the regular vampiric ouroboros this one has the loops on the inside. Additionally it features a different center, 4 convex lines resembling a diamond shape.",
+      "thumbnail_url": "Images/Thumbnail/066c413e-716d-46a0-b1bd-b1bb3a2d1793.jpg",
+      "image_url": "Images/Full/066c413e-716d-46a0-b1bd-b1bb3a2d1793.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 1,
+      "source_id": 3,
+      "title": "Regis's Tunic Chain",
+      "description": "Visible on Regis's tunic brooches which suggests that the symbol has a deep cultural meaning since it's a part of his attire. Unlike the regular vampiric ouroboros this one has the loops on the inside. Additionally it features a different center, 4 convex lines resembling a diamond shape.",
+      "thumbnail_url": "Images/Thumbnail/2bc40909-b106-4e3d-8cf5-cc9c5962158d.jpg",
+      "image_url": "Images/Full/2bc40909-b106-4e3d-8cf5-cc9c5962158d.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 1,
+      "source_id": 3,
+      "title": "Tesham Mutna Door Seal",
+      "description": "When entering Tesham Mutna with Regis he waves his hand in front of a sealed door. Afterwards a vampiric ouroboros shaped red seal appears on its surface. Regis exclaims that it's a form of protection against unwanted guests, and the the mechanism reacts only to the higher vampire's blood.",
+      "thumbnail_url": "Images/Thumbnail/6fb3db8c-8472-4d8a-b191-b247e37857c2.jpg",
+      "image_url": "Images/Full/6fb3db8c-8472-4d8a-b191-b247e37857c2.jpg"
     }
   ]
 }
