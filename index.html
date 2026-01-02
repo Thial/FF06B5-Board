@@ -444,7 +444,7 @@
             const title_bar_height = w2sL(TITLE_BAR_HEIGHT);
             const image_height = w2sL(IMAGE_HEIGHT);
             const text_height = w2sL(TEXT_HEIGHT);
-            const zoomed_enough = scale > 0.2;
+            const zoomed_enough = scale > 0.3;
 
             if (x + w < 0 || x > canvas.width || y + h < 0 || y > canvas.height) return;
 
@@ -461,7 +461,7 @@
             ctx.fillRect(x, y, w, title_bar_height);
 
             if (zoomed_enough) {
-                ctx.globalAlpha = Math.min(1, (scale - 0.2) * 3);
+                ctx.globalAlpha = Math.min(1, (scale - 0.3) * 4);
 
                 // Title
                 ctx.fillStyle = '#0DD';
@@ -514,7 +514,7 @@
             ctx.fillRect(x, y + title_bar_height + image_height, w, w2sL(1.5));
 
             if (zoomed_enough) {
-                ctx.globalAlpha = Math.min(1, (scale - 0.2) * 3);
+                ctx.globalAlpha = Math.min(1, (scale - 0.3) * 4);
 
                 // Description text
                 ctx.fillStyle = '#F55';

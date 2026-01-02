@@ -245,6 +245,56 @@
       "description": "When entering Tesham Mutna with Regis he waves his hand in front of a sealed door. Afterwards a vampiric ouroboros shaped red seal appears on its surface. Regis exclaims that it's a form of protection against unwanted guests, and the the mechanism reacts only to the higher vampire's blood.",
       "thumbnail_url": "Images/Thumbnail/6fb3db8c-8472-4d8a-b191-b247e37857c2.jpg",
       "image_url": "Images/Full/6fb3db8c-8472-4d8a-b191-b247e37857c2.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 1,
+      "source_id": 3,
+      "title": "Ouroboros Amulet",
+      "description": "One of the trash items found in the Unseen Elder's cave. We can also find a ring with a similar red stone, as well as a figurine featuring a vampire. The fact that this ouroboros is present even in ancient vampiric jewelry proves that this symbol has a deep cultural meaning.",
+      "thumbnail_url": "Images/Thumbnail/427634e5-6083-43a7-9433-39eaae0bfad4.jpg",
+      "image_url": "Images/Full/427634e5-6083-43a7-9433-39eaae0bfad4.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 1,
+      "source_id": 10,
+      "title": "Gwent Regis Cardback",
+      "description": "This Gwent cardback features the regular ouroboros with the loops on the outside but the inside looks like the diamond shape present on Regis's bag, and tunic chain. Additionally the diamond shape blends into an infinity symbol visible in the background.",
+      "thumbnail_url": "Images/Thumbnail/c51afda2-675e-4f09-9d7c-00c8dea9b39c.jpg",
+      "image_url": "Images/Full/c51afda2-675e-4f09-9d7c-00c8dea9b39c.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 1,
+      "source_id": 10,
+      "title": "Gwent Carnage Cardback",
+      "description": "This Gwent cardback features the same circles and triangle present in the center of the vampiric ouroboros.",
+      "thumbnail_url": "Images/Thumbnail/39cd1d77-abf6-40cb-a21f-c7b245bfa9fc.jpg",
+      "image_url": "Images/Full/39cd1d77-abf6-40cb-a21f-c7b245bfa9fc.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 1,
+      "source_id": 10,
+      "title": "Gwent Regis Coin",
+      "description": "Regis's coin from Gwent. It features the classic vampiric ouroboros. The text on the edges spells out Regis's full name.",
+      "thumbnail_url": "Images/Thumbnail/b2912d0e-d81c-4464-bdc9-529dba9e6b76.jpg",
+      "image_url": "Images/Full/b2912d0e-d81c-4464-bdc9-529dba9e6b76.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 1,
+      "source_id": 10,
+      "title": "Gwent Regis Skin",
+      "description": "One of the Gwent Regis skins features a slightly different version of the ouroboros. The interesting part is that the snake loops and even the head are presented as circles which might add extra meaning to the symbol.",
+      "thumbnail_url": "Images/Thumbnail/222e6b0c-4cfe-4a59-a59a-542928758332.jpg",
+      "image_url": "Images/Full/222e6b0c-4cfe-4a59-a59a-542928758332.jpg"
     }
   ]
 }
