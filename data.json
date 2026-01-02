@@ -22,7 +22,37 @@
     },
     {
       "id": 6,
-      "name": "Lilith"
+      "name": "Lilith",
+      "sub_theories": [
+        {
+          "id": 1,
+          "name": "Bloody Ritual"
+        },
+        {
+          "id": 2,
+          "name": "Witcher Cult"
+        },
+        {
+          "id": 3,
+          "name": "Wicca"
+        },
+        {
+          "id": 4,
+          "name": "Religion / Folklore"
+        },
+        {
+          "id": 5,
+          "name": "Lilvani / Melitele"
+        },
+        {
+          "id": 6,
+          "name": "Vampires"
+        },
+        {
+          "id": 7,
+          "name": "Gaunter O'Dimm"
+        }
+      ]
     },
     {
       "id": 7,
@@ -128,6 +158,10 @@
     },
     {
       "id": 10,
+      "name": "Gwent"
+    },
+    {
+      "id": 20,
       "name": "Cyberpunk 2077"
     }
   ],
@@ -151,6 +185,36 @@
       "description": "This symbol is visible in both Tesham Mutna and Unseen Elder's cave. What's interesting here is that the symbol uses the exact same snake as on the vampiric ouroboros.",
       "thumbnail_url": "Images/Thumbnail/33bdacf3-2f6a-47c5-afba-34a21eff4aee.jpg",
       "image_url": "Images/Full/33bdacf3-2f6a-47c5-afba-34a21eff4aee.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 1,
+      "source_id": 3,
+      "title": "Unseen Elder Ouroboros",
+      "description": "This symbol is visible above an arch when leaving the cave with the inverted gravity inside of the Unseen Elder's cave. This is the pure vampiric ouroboros with its base colors, and without any text.",
+      "thumbnail_url": "Images/Thumbnail/01c5de84-e822-4d3e-a8ef-044d5ccd47e9.jpg",
+      "image_url": "Images/Full/01c5de84-e822-4d3e-a8ef-044d5ccd47e9.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 1,
+      "source_id": 3,
+      "title": "Tesham Mutna 1",
+      "description": "This symbol is visible in the chamber at the very bottom of Tesham Mutna. The symbol is partially covered by rubble and it's rather large so you can easily miss it. The chamber in which it was located was used as jail for vampire Khagmar.",
+      "thumbnail_url": "Images/Thumbnail/bb2a2ec8-b5ee-4b68-9951-3e774b20b407.jpg",
+      "image_url": "Images/Full/bb2a2ec8-b5ee-4b68-9951-3e774b20b407.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 1,
+      "source_id": 3,
+      "title": "Regis's Glove",
+      "description": "This symbol is visible on Regis's glove which suggests that the symbol has a deep meaning, and that Regis is proud of that symbol by displaying it in such a manner.",
+      "thumbnail_url": "Images/Thumbnail/a7722363-8253-42b6-9330-5a24a214094e.jpg",
+      "image_url": "Images/Full/a7722363-8253-42b6-9330-5a24a214094e.jpg"
     }
   ]
 }

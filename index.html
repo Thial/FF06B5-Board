@@ -464,47 +464,28 @@
             ctx.font = `bold ${w2sL(25)}px Jura, sans-serif`;
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'left';
-            ctx.fillText(card.title.toUpperCase(), x + w2sL(10), y + w2sL(20));
+            ctx.fillText(card.title.toUpperCase(), x + w2sL(10), y + w2sL(16));
 
             // Theory
             ctx.fillStyle = '#F55';
             ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'left';
-            ctx.fillText(`${card.theory_name.toUpperCase()} - ${card.sub_theory_name.toUpperCase()}`, x + w2sL(10), y + w2sL(40));
+            ctx.fillText(`${card.theory_name.toUpperCase()} - ${card.sub_theory_name.toUpperCase()}`, x + w2sL(10), y + w2sL(38));
 
             // Source
             ctx.fillStyle = '#F55';
             ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
             ctx.textBaseline = 'middle';
             ctx.textAlign = 'left';
-            ctx.fillText(`${card.source_name.toUpperCase()}`, x + w2sL(10), y + w2sL(60));
+            ctx.fillText(`${card.source_name.toUpperCase()}`, x + w2sL(10), y + w2sL(58));
 
-            let factCheckX = x + w - (card.is_fact ? w2sL(65) : w2sL(92));
-            let factCheckY = y + w2sL(38);
-            let factCheckW = (card.is_fact ? w2sL(56) : w2sL(83));
-            let factCheckH = w2sL(25);
-
-            // FactCheck Square
-            ctx.fillStyle = (card.is_fact ? '#040' : '#440');
-            ctx.fillRect(factCheckX, factCheckY, factCheckW, factCheckH);
-
-            // Fact Check Border
-            if (card.is_fact) {
-              ctx.strokeStyle = `rgba(0, 255, 0, 1)`;
-            } else {
-              ctx.strokeStyle = `rgba(255, 255, 0, 1)`;
-            }
-            ctx.lineWidth = w2sL(1.5);
-            ctx.strokeRect(factCheckX, factCheckY, factCheckW, factCheckH);
-
-            // FactCheck
             ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = (card.is_fact ? '#0F0' : '#FF0');
             let factCheckText = (card.is_fact ? 'FACT' : 'OPINION');
-            ctx.fillText(factCheckText, x + w - w2sL(18), y + w2sL(50));
+            ctx.fillText(factCheckText, x + w - w2sL(10), y + w2sL(58));
 
             // Line
             ctx.fillStyle = '#AA3333';
