@@ -60,10 +60,14 @@
     },
     {
       "id": 8,
-      "name": "Cats"
+      "name": "Destroyed Bastion"
     },
     {
       "id": 9,
+      "name": "Cats"
+    },
+    {
+      "id": 10,
       "name": "Statue",
       "sub_theories": [
         {
@@ -97,19 +101,49 @@
       ]
     },
     {
-      "id": 10,
+      "id": 11,
       "name": "Blue Eyes"
     },
     {
-      "id": 11,
+      "id": 12,
       "name": "Night Corp"
     },
     {
-      "id": 12,
-      "name": "Simulation"
+      "id": 13,
+      "name": "FF06B5 Core",
+      "sub_theories": [
+        {
+          "id": 1,
+          "name": "Timeline"
+        },
+        {
+          "id": 2,
+          "name": "Church Logs"
+        },
+        {
+          "id": 3,
+          "name": "Laptop Solution"
+        },
+        {
+          "id": 4,
+          "name": "Ourobotos Solution"
+        },
+        {
+          "id": 5,
+          "name": "Cube Cutscene"
+        },
+        {
+          "id": 6,
+          "name": "Cube Logs"
+        },
+        {
+          "id": 7,
+          "name": "Watcher"
+        }
+      ]
     },
     {
-      "id": 13,
+      "id": 14,
       "name": "Ouroboros",
       "sub_theories": [
         {
@@ -131,15 +165,15 @@
       ]
     },
     {
-      "id": 14,
+      "id": 15,
       "name": "Polyhistor"
     },
     {
-      "id": 15,
+      "id": 16,
       "name": "Tyromanta"
     },
     {
-      "id": 16,
+      "id": 17,
       "name": "AI"
     }
   ],
@@ -168,7 +202,7 @@
   "cards": [
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "FF06B5 Ouroboros",
@@ -178,7 +212,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Tdet Tribe Symbol",
@@ -188,7 +222,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Unseen Elder's Cave",
@@ -198,7 +232,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Tesham Mutna Chamber",
@@ -208,7 +242,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Regis's Glove",
@@ -218,7 +252,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Regis's Bag",
@@ -228,7 +262,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Regis's Tunic Chain",
@@ -238,7 +272,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Tesham Mutna Door Seal",
@@ -248,7 +282,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Ouroboros Amulet",
@@ -258,7 +292,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 10,
       "title": "Gwent Regis Cardback",
@@ -268,7 +302,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 10,
       "title": "Gwent Carnage Cardback",
@@ -278,7 +312,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 10,
       "title": "Gwent Regis Coin",
@@ -288,7 +322,7 @@
     },
     {
       "is_fact": true,
-      "theory_id": 13,
+      "theory_id": 14,
       "sub_theory_id": 1,
       "source_id": 10,
       "title": "Gwent Regis Skin",
