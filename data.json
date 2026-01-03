@@ -329,6 +329,66 @@
       "description": "One of the Gwent Regis skins features a slightly different version of the ouroboros. The interesting part is that the snake loops and even the head are presented as circles which might add extra meaning to the symbol.",
       "thumbnail_url": "Images/Thumbnail/222e6b0c-4cfe-4a59-a59a-542928758332.jpg",
       "image_url": "Images/Full/222e6b0c-4cfe-4a59-a59a-542928758332.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 3,
+      "source_id": 20,
+      "title": "1. Laptop Discovered",
+      "description": "The laptop was discovered not far from Tyromanta's body among the trash piles. Upon opening it we can see the vampiric ouroboros in the background followed by Witcher glagolitic alphabet (slightly different than the real glagolitic alphabet).",
+      "thumbnail_url": "Images/Thumbnail/45b49af2-e7af-4711-b53a-1f13eaf905ca.jpg",
+      "image_url": "Images/Full/45b49af2-e7af-4711-b53a-1f13eaf905ca.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 3,
+      "source_id": 20,
+      "title": "2. Laptop Translated",
+      "description": "Thanks to the Witcher 3 rosetta stone all of the characters were translated to regular ASCII characters.",
+      "thumbnail_url": "Images/Thumbnail/e1ee2b1b-14bc-4b53-acb2-0333f0d1348a.jpg",
+      "image_url": "Images/Full/e1ee2b1b-14bc-4b53-acb2-0333f0d1348a.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 3,
+      "source_id": 20,
+      "title": "3. Prime Assignment",
+      "description": "Based on the occurrence of the vertical pairs on each cross it was deduced by Til, Tokyo_Jinx, and Fuji that each cross corresponds to a hex converted prime number. Therefore hex converted prime numbers were assigned to each cross from left to right, and from top to bottom.",
+      "thumbnail_url": "Images/Thumbnail/b800dcf8-8992-4d24-b444-ed3add3876ea.jpg",
+      "image_url": "Images/Full/b800dcf8-8992-4d24-b444-ed3add3876ea.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 3,
+      "source_id": 20,
+      "title": "4. Letter Table",
+      "description": "Thanks to the assigned primes we can now take the characters from the left side of the cross and assign them to the value of the left character of the hex prime. The characters on the right side of the cross get assigned to the right character of the hex prime. For example this means that based on the top left cross with the hex prime 02, 0=P and 2=HU. As a result based on the whole laptop we get the following substitution table. Some letters are unfortunately not on the laptop so we are left with letters JLMQRX.",
+      "thumbnail_url": "Images/Thumbnail/a9eca27d-036d-4c0c-8026-1113c777166b.jpg",
+      "image_url": "Images/Full/a9eca27d-036d-4c0c-8026-1113c777166b.jpg"
+    },
+    {
+      "is_fact": true,
+      "theory_id": 13,
+      "sub_theory_id": 3,
+      "source_id": 20,
+      "title": "5. Post Ouroboros",
+      "description": "After solving the ouroboros we get two additional values 6=Q, and 4=R, which can be added onto the substitution table in case this table will be used for something else down the line. This means that that we are still left with letters JLMX.",
+      "thumbnail_url": "Images/Thumbnail/ea973b1d-62e3-44cd-8e0b-076a64ab6ea1.jpg",
+      "image_url": "Images/Full/ea973b1d-62e3-44cd-8e0b-076a64ab6ea1.jpg"
+    },
+    {
+      "is_fact": false,
+      "theory_id": 13,
+      "sub_theory_id": 3,
+      "source_id": 20,
+      "title": "Solution Disclaimer",
+      "description": "It is possible that some step in this solution was missed because we require the letters R and Q to solve the ouroboros yet we don't get them from the laptop. It's possible that perhaps there is some pattern which allows us to also get the remaining letters.",
+      "thumbnail_url": "Images/Thumbnail/86959e72-520c-4a58-bbdf-a73bce50cc7e.jpg",
+      "image_url": "Images/Full/86959e72-520c-4a58-bbdf-a73bce50cc7e.jpg"
     }
   ]
 }
