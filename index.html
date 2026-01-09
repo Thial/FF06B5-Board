@@ -11,12 +11,13 @@
             margin: 0;
             overflow: hidden;
             background: linear-gradient(to bottom, #322, #223);
-            font-family: 'Jura';
-	    cursor: initial;
+            font-family: 'Jura', sans-serif;
+            color: #D55;
+	        cursor: initial;
         }
         canvas {
             display: block;
-	    cursor: initial;
+	        cursor: initial;
         }
 
         #resetBtn {
@@ -30,10 +31,49 @@
             border-radius: 6px;
             font-size: 14px;
             cursor: pointer;
-            font-family: 'Jura';
+            font-family: 'Jura', sans-serif;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
         #resetBtn:hover { background: #333; }
+        
+        #loadingScreen {
+            display: block;
+            position:fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 99998;
+            justify-content: center;
+            align-items: center;
+            cursor: initial;
+        }
+        
+        #loadingTitle {
+            display: flex;
+            position:fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            cursor: initial;
+        }
+        #loadingDescription {
+            display: flex;
+            position:fixed;
+            top: 30px;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            cursor: initial;
+        }
 
         #fullscreenModal {
             display: none;
@@ -79,9 +119,17 @@
         <img id="fullscreenImage" src="" alt="Fullscreen">
     </div>
 
+    <div id="loadingScreen">
+        <div id="loadingTitle"><h1 id="loadingTextTitle">LOADING</h1></div>
+        <div id="loadingDescription"><h3 id="loadingTextDescription">Fetching Data</h3></div>
+    </div>
+    
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
+        const loadingScreen = document.getElementById("loadingScreen");
+        const loadingTitle = document.getElementById("loadingTextTitle");
+        const loadingDescription = document.getElementById("loadingTextDescription");
         const fullscreenModal = document.getElementById('fullscreenModal');
         const fullscreenImage = document.getElementById('fullscreenImage');
         const closeModal = document.getElementById('closeModal');
@@ -141,6 +189,10 @@
         let theoryHalfSizeY = 0;
         let sizeX = 0;
         let sizeY = 0;
+        let originX = 0;
+        let originY = 0;
+        
+        let loaded_thumbnails = 0;
 
         function w2sX(x) {
             return x * scale + offsetX;
@@ -155,6 +207,10 @@
         }
 
         async function initialize() {
+            document.addEventListener('DOMContentLoaded', onHtmlLoaded);
+        }
+        
+        function onHtmlLoaded() {            
             fetch(`data.json?t=${Date.now()}`, { cache: 'no-store'})
                 .then(response => {
                     if (!response.ok) throw new Error('Failed to get data!');
@@ -164,139 +220,68 @@
                     const cleanedJson = data.replace(/,\s*([\]}])/g, '$1');
                     json = JSON.parse(cleanedJson);
                     console.log(json);
-                    initializeData();
-                    calculatePositions();
+                    return json;
+                })
+                .then(data => {
+                    const urls = json.cards.map(card => card.thumbnail_url);
+                    return Promise.all(urls.map(loadImage))
+                        .then(loadedImages => {
+                            console.log('Thumbnails Loaded');
+                            return loadedImages;
+                        })
+                        .catch(error => {
+                            console.error('One or more images failed to load:', error);
+                        });
+                })
+                .then(loadedThumbnails => {
+                    calculateDescriptions();
+                    prepareTheories();
+                    calculateSizes();
+                    calculateTheoryPositions();
+                    calculateSubTheoryPositions();
+                    calculateCardPositions();
                     addEventListeners();
+                    resize();
 
-                    json.cards.forEach(card => {
-                        const img = new Image();
-                        img.src = card.thumbnail_url;
-                        img.onload = () => {
-                            needsDraw = true;
-                            draw();
-                        };
-                        images[card.thumbnail_url] = img;
-                    });
-
-                    draw();
+                    loadingScreen.style.display = 'none';
                 })
                 .catch(err => console.error(err));
         }
 
-        function initializeData() {
-            json.cards.forEach(card => {
-                calculateDescriptionLines(card);
-                calculateDescriptionWords(card);
-            });
-
-            json.theories.forEach(theory => {
-                if (theory.sub_theories === null || theory.sub_theories === undefined) {
-                    theory.sub_theories = [];
-                }
-                theory.sub_theories.forEach(subTheory => {
-                    subTheory.cards = [];
-                    json.cards.forEach(card => {
-                        if (card.theory_id === theory.id && card.sub_theory_id === subTheory.id) {
-                            card.theory_name = theory.name;
-                            card.sub_theory_name = subTheory.name;
-                            const source = json.sources.find(source => source.id === card.source_id);
-                            card.source_name = source.name;
-                            subTheory.cards.push(card);
-                        }
-                    });
-                    const cardCount = subTheory.cards.length;
-                    const cardGridSize = Math.max(2, Math.ceil(Math.sqrt(cardCount)));
-                    subTheory.card_count = cardCount;
-                    subTheory.card_grid_size = cardGridSize;
-                });
-                theory.sub_theory_grid_size = Math.max(2, Math.ceil(Math.sqrt(theory.sub_theories.length)));
-            });
-
-            calculateSizes();
-        }
-
-        function calculateSizes() {
-            theoryGridSizeMax = Math.max(2, Math.ceil(Math.sqrt(json.theories.length)));
-            subTheoryGridSizeMax = Math.max(...json.theories.map(theory => theory.sub_theory_grid_size));
-            json.theories.forEach(theory => {
-                const subTheoryCardGridSizeMax = Math.max(...theory.sub_theories.map(subTheory => subTheory.card_grid_size));
-                if (subTheoryCardGridSizeMax > cardGridSizeMax) {
-                    cardGridSizeMax = subTheoryCardGridSizeMax;
-                }
-            });
-            // the max size of a sub theory
-            subTheorySizeX = cardGridSizeMax * CARD_WIDTH + cardGridSizeMax * CARD_GAP_X;
-            subTheorySizeY = cardGridSizeMax * CARD_HEIGHT + cardGridSizeMax * CARD_GAP_Y;
-            subTheoryHalfSizeX = subTheorySizeX / 2;
-            subTheoryHalfSizeY = subTheorySizeY / 2;
-            // the max size of a theory
-            theorySizeX = subTheorySizeX * subTheoryGridSizeMax + subTheoryGridSizeMax * SUB_THEORY_GAP_X;
-            theorySizeY = subTheorySizeY * subTheoryGridSizeMax + subTheoryGridSizeMax * SUB_THEORY_GAP_Y;
-            theoryHalfSizeX = theorySizeX / 2;
-            theoryHalfSizeY = theorySizeY / 2;
-            // the max size of all theories
-            sizeX = theorySizeX * theoryGridSizeMax + theoryGridSizeMax * THEORY_GAP_X;
-            sizeY = theorySizeY * theoryGridSizeMax + theoryGridSizeMax * THEORY_GAP_Y;
-        }
-
-        function calculatePositions() {
-            calculateTheoryPositions();
-            json.theories.forEach(theory => {
-                calculateSubTheoryPositions(theory);
-                theory.sub_theories.forEach(subTheory => {
-                    calculateCardPositions(subTheory);
-                });
+        function loadImage(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = url;  // Starts loading immediately
+                img.onload = () => {
+                    images[url] = img;
+                    loaded_thumbnails++;
+                    const progress = loaded_thumbnails / json.cards.length * 100
+                    loadingDescription.innerHTML = `Loading Card Thumbnails ${Math.round(progress)}%`;
+                    requestAnimationFrame(() => {});
+                    resolve(img);
+                };
+                img.onerror = () => reject(new Error(`Failed to load ${url}`));
             });
         }
 
-        function calculateTheoryPositions() {
-            // the origin point
-            const originX = 0 - sizeX / 2 + THEORY_HALF_GAP_X;
-            const originY = 0 - sizeY / 2 + THEORY_HALF_GAP_Y;
-            // calculate the origin of each theory
-            let theoryGridX = 0;
-            let theoryGridY = 0;
-            json.theories.forEach(theory => {
-                theory.x = originX + theoryGridX * (theorySizeX + THEORY_GAP_X);
-                theory.y = originY + theoryGridY * (theorySizeY + THEORY_GAP_Y);
-                theoryGridX++;
-                if (theoryGridX >= theoryGridSizeMax) {
-                    theoryGridX = 0;
-                    theoryGridY++;
-                }
-            });
-        }
+        function calculateDescriptions(index = 0) {
+            const startTime = performance.now();
+            const length = json.cards.length;
 
-        function calculateSubTheoryPositions(theory) {
-            let subTheoryGridX = 0;
-            let subTheoryGridY = 0;
-            theory.sub_theories.forEach(subTheory => {
-                subTheory.x = theory.x + SUB_THEORY_HALF_GAP_X + subTheoryGridX * (subTheorySizeX + SUB_THEORY_GAP_X);
-                subTheory.y = theory.y + SUB_THEORY_HALF_GAP_Y + subTheoryGridY * (subTheorySizeY + SUB_THEORY_GAP_Y);
-                subTheoryGridX++;
-                if (subTheoryGridX >= subTheoryGridSizeMax) {
-                    subTheoryGridX = 0;
-                    subTheoryGridY++;
-                }
-            });
-        }
+            while (index < length && (performance.now() - startTime) < 20) {
+                calculateDescriptionLines(json.cards[index]);
+                calculateDescriptionWords(json.cards[index]);
+                index++;
+            }
 
-        function calculateCardPositions(subTheory) {
-            let cardGridX = 0;
-            let cardGridY = 0;
-            subTheory.cards.forEach(card => {
-                card.initial_x = subTheory.x + CARD_HALF_GAP_X + cardGridX * (CARD_WIDTH + CARD_GAP_X);
-                card.initial_y = subTheory.y + CARD_HALF_GAP_Y + cardGridY * (CARD_HEIGHT + CARD_GAP_Y);
-                card.x = card.initial_x;
-                card.y = card.initial_y;
-                cardGridX++;
-                if (cardGridX >= cardGridSizeMax) {
-                    cardGridX = 0;
-                    cardGridY++;
-                }
-            });
-        }
+            const stepProgress = index / length * 100;
+            loadingDescription.innerHTML = `Preparing Card Descriptions ${Math.round(stepProgress)}%`;
 
+            if (index < length) {
+                requestAnimationFrame(() => calculateDescriptions(index));
+            }
+        }
+        
         function calculateDescriptionLines(card) {
             card.lines = [];
             ctx.font = `bold 15px Jura, sans-serif`;
@@ -324,10 +309,10 @@
                 }
             }
             if (line) card.lines.push({
-                        offset_x: 8,
-                        offset_y: offsetY,
-                        text: line,
-                    });
+                offset_x: 8,
+                offset_y: offsetY,
+                text: line,
+            });
         }
 
         function calculateDescriptionWords(card) {
@@ -350,6 +335,159 @@
                 });
             });
         }
+
+        function prepareTheories(index = 0) {
+            const startTime = performance.now();
+            const length = json.theories.length;
+
+            while (index < length && (performance.now() - startTime) < 20) {
+                prepareTheory(json.theories[index]);
+                index++;
+            }
+
+            const stepProgress = index / length * 100;
+            loadingDescription.innerHTML = `Preparing Theory Data ${Math.round(stepProgress)}%`;
+
+            if (index < length) {
+                requestAnimationFrame(() => prepareTheories(index));
+            }
+        }
+        
+        function prepareTheory(theory) {
+            if (theory.sub_theories === null || theory.sub_theories === undefined) {
+                theory.sub_theories = [];
+            }
+            theory.sub_theories.forEach(subTheory => {
+                subTheory.cards = [];
+                json.cards.forEach(card => {
+                    if (card.theory_id === theory.id && card.sub_theory_id === subTheory.id) {
+                        card.theory_name = theory.name;
+                        card.sub_theory_name = subTheory.name;
+                        const source = json.sources.find(source => source.id === card.source_id);
+                        card.source_name = source.name;
+                        subTheory.cards.push(card);
+                    }
+                });
+                const cardCount = subTheory.cards.length;
+                const cardGridSize = Math.max(2, Math.ceil(Math.sqrt(cardCount)));
+                subTheory.card_count = cardCount;
+                subTheory.card_grid_size = cardGridSize;
+            });
+            theory.sub_theory_grid_size = Math.max(2, Math.ceil(Math.sqrt(theory.sub_theories.length)));
+        }
+
+        function calculateSizes() {
+            loadingDescription.innerHTML = "Calculating Element Sizes 0%";
+            requestAnimationFrame(() => {});
+            
+            theoryGridSizeMax = Math.max(2, Math.ceil(Math.sqrt(json.theories.length)));
+            subTheoryGridSizeMax = Math.max(...json.theories.map(theory => theory.sub_theory_grid_size));
+            json.theories.forEach(theory => {
+                const subTheoryCardGridSizeMax = Math.max(...theory.sub_theories.map(subTheory => subTheory.card_grid_size));
+                if (subTheoryCardGridSizeMax > cardGridSizeMax) {
+                    cardGridSizeMax = subTheoryCardGridSizeMax;
+                }
+            });
+            // the max size of a sub theory
+            subTheorySizeX = cardGridSizeMax * CARD_WIDTH + cardGridSizeMax * CARD_GAP_X;
+            subTheorySizeY = cardGridSizeMax * CARD_HEIGHT + cardGridSizeMax * CARD_GAP_Y;
+            subTheoryHalfSizeX = subTheorySizeX / 2;
+            subTheoryHalfSizeY = subTheorySizeY / 2;
+            // the max size of a theory
+            theorySizeX = subTheorySizeX * subTheoryGridSizeMax + subTheoryGridSizeMax * SUB_THEORY_GAP_X;
+            theorySizeY = subTheorySizeY * subTheoryGridSizeMax + subTheoryGridSizeMax * SUB_THEORY_GAP_Y;
+            theoryHalfSizeX = theorySizeX / 2;
+            theoryHalfSizeY = theorySizeY / 2;
+            // the max size of all theories
+            sizeX = theorySizeX * theoryGridSizeMax + theoryGridSizeMax * THEORY_GAP_X;
+            sizeY = theorySizeY * theoryGridSizeMax + theoryGridSizeMax * THEORY_GAP_Y;
+            originX = 0 - sizeX / 2 + THEORY_HALF_GAP_X;
+            originY = 0 - sizeY / 2 + THEORY_HALF_GAP_Y;
+
+            loadingDescription.innerHTML = "Calculating Element Sizes 100%";
+            requestAnimationFrame(() => {});
+        }
+
+        function calculateTheoryPositions(index = 0, gridX = 0, gridY = 0) {
+            const startTime = performance.now();
+            const length = json.theories.length;
+
+            while (index < length && (performance.now() - startTime) < 20) {
+                json.theories[index].x = originX + gridX * (theorySizeX + THEORY_GAP_X);
+                json.theories[index].y = originY + gridY * (theorySizeY + THEORY_GAP_Y);
+                gridX++;
+                if (gridX >= theoryGridSizeMax) {
+                    gridX = 0;
+                    gridY++;
+                }
+                index++;
+            }
+
+            const stepProgress = index / length * 100;
+            loadingDescription.innerHTML = `Calculating Theory Positions ${Math.round(stepProgress)}%`;
+
+            if (index < length) {
+                requestAnimationFrame(() => calculateTheoryPositions(index, gridX, gridY));
+            }
+        }
+
+        function calculateSubTheoryPositions(index = 0, gridX = 0, gridY = 0) {
+            const startTime = performance.now();
+            const length = json.theories.length;
+
+            while (index < length && (performance.now() - startTime) < 20) {
+                json.theories[index].sub_theories.forEach(subTheory => {
+                    subTheory.x = json.theories[index].x + SUB_THEORY_HALF_GAP_X + gridX * (subTheorySizeX + SUB_THEORY_GAP_X);
+                    subTheory.y = json.theories[index].y + SUB_THEORY_HALF_GAP_Y + gridY * (subTheorySizeY + SUB_THEORY_GAP_Y);
+                    gridX++;
+                    if (gridX >= subTheoryGridSizeMax) {
+                        gridX = 0;
+                        gridY++;
+                    }                    
+                });
+                gridX = 0;
+                gridY = 0;
+                index++;
+            }
+
+            const stepProgress = index / length * 100;
+            loadingDescription.innerHTML = `Calculating Sub Theory Positions ${Math.round(stepProgress)}%`;
+
+            if (index < length) {
+                requestAnimationFrame(() => calculateSubTheoryPositions(index));
+            }
+        }
+
+        function calculateCardPositions(index = 0, gridX = 0, gridY = 0) {
+            const startTime = performance.now();
+            const length = json.theories.length;
+
+            while (index < length && (performance.now() - startTime) < 20) {
+                json.theories[index].sub_theories.forEach(subTheory => {
+                    subTheory.cards.forEach(card => {
+                        card.initial_x = subTheory.x + CARD_HALF_GAP_X + gridX * (CARD_WIDTH + CARD_GAP_X);
+                        card.initial_y = subTheory.y + CARD_HALF_GAP_Y + gridY * (CARD_HEIGHT + CARD_GAP_Y);
+                        card.x = card.initial_x;
+                        card.y = card.initial_y;
+                        gridX++;
+                        if (gridX >= cardGridSizeMax) {
+                            gridX = 0;
+                            gridY++;
+                        }
+                    });
+                    gridX = 0;
+                    gridY = 0;
+                });
+                index++;
+            }
+
+            const stepProgress = index / length * 100;
+            loadingDescription.innerHTML = `Calculating Card Positions ${Math.round(stepProgress)}%`;
+
+            if (index < length) {
+                requestAnimationFrame(() => calculateCardPositions(index));
+            }
+        }        
 
         function drawGrid() {
             const w = canvas.width;

@@ -95,6 +95,7 @@
     const app = new PIXI.Application({
         resizeTo: window,
         transparent: true,
+        backgroundAlpha: 0,
         autoDensity: true
     });
     document.body.appendChild(app.view);
@@ -157,6 +158,15 @@
     let sizeX = 0;
     let sizeY = 0;
 
+    const theoryTextStyle = new PIXI.TextStyle({
+        fontFamily: 'Jura',
+        fontSize: 300,
+        fill: 0xDD5555,
+        fontWeight: 'bold'
+    });
+    
+    
+
     function w2sX(x) {
         return x * scale + offsetX;
     }
@@ -185,7 +195,7 @@
     const gradientTexture = createGradientTexture();
 
     async function initialize() {
-        fetch(`data.json?t=${Date.now()}`, { cache: 'no-store' })
+        fetch(`test.json?t=${Date.now()}`, { cache: 'no-store' })
             .then(response => {
                 if (!response.ok) throw new Error('Failed to get data!');
                 return response.text();
@@ -322,37 +332,21 @@
 
     function createTheoryTexts() {
         json.theories.forEach(theory => {
-            const theoryRect = new PIXI.Graphics();
-            theoryRect.beginFill('#00f');
-            theoryRect.drawRect(theory.x, theory.y, theorySizeX, theorySizeY);
-            theoryRect.endFill();
-            mainContainer.addChild(theoryRect);
-
-            const theoryText = new PIXI.Text(theory.name.toUpperCase(), {
-                fontFamily: 'Jura',
-                fontSize: 400,
-                fill: 0xDD5555,
-                fontWeight: 'bold',
-                align: 'center'
-            });
-            theoryText.position.set(theory.x + theoryHalfSizeX, theory.y - 200);
+            const theoryText = new PIXI.Text(theory.name.toUpperCase(), theoryTextStyle);
+            theoryText.position.set(theory.x + theoryHalfSizeX, theory.y - 600);
+            theoryText.anchor.set(0.5, 0.5);
             mainContainer.addChild(theoryText);
 
             theory.sub_theories.forEach(subTheory => {
-                const subTheoryRect = new PIXI.Graphics();
-                subTheoryRect.beginFill('#f0f');
-                subTheoryRect.drawRect(subTheory.x, subTheory.y, subTheorySizeX, subTheorySizeY);
-                subTheoryRect.endFill();
-                mainContainer.addChild(subTheoryRect);
 
                 const subTheoryText = new PIXI.Text(subTheory.name.toUpperCase(), {
                     fontFamily: 'Jura',
                     fontSize: 200,
                     fill: 0xCC4444,
                     fontWeight: 'bold',
-                    align: 'center'
                 });
                 subTheoryText.position.set(subTheory.x + subTheoryHalfSizeX, subTheory.y - 200);
+                subTheoryText.anchor.set(0.5, 0.5);
                 mainContainer.addChild(subTheoryText);
             });
         });
@@ -366,31 +360,26 @@
             card.container = cardContainer;
 
             const bgSprite = new PIXI.Sprite(gradientTexture);
-            bgSprite.width = CARD_WIDTH;
-            bgSprite.height = CARD_HEIGHT;
+            bgSprite.width = CARD_WIDTH - 4;
+            bgSprite.height = CARD_HEIGHT - 4;
+            bgSprite.position.set(2, 2);
             cardContainer.addChild(bgSprite);
 
             const cardGraphics = new PIXI.Graphics();
             cardGraphics.beginFill(0x331111);
-            cardGraphics.drawRect(0, 0, CARD_WIDTH, TITLE_BAR_HEIGHT);
-            cardGraphics.lineStyle(1.5, 0xAA3333);
-            cardGraphics.moveTo(0, TITLE_BAR_HEIGHT);
-            cardGraphics.lineTo(CARD_WIDTH, TITLE_BAR_HEIGHT);
-            cardGraphics.moveTo(0, TITLE_BAR_HEIGHT + IMAGE_HEIGHT);
-            cardGraphics.lineTo(CARD_WIDTH, TITLE_BAR_HEIGHT + IMAGE_HEIGHT);
-            cardGraphics.lineStyle(1.5, 0xFF3737);
-            cardGraphics.drawRect(-0.75, -0.75, CARD_WIDTH + 1.5, CARD_HEIGHT + 1.5);
+            cardGraphics.drawRect(0, 0, CARD_WIDTH, CARD_HEIGHT);
+            cardGraphics.endFill();
             cardContainer.addChild(cardGraphics);
 
             const placeholder = new PIXI.Graphics();
             placeholder.beginFill(0xf0f0f0);
-            placeholder.drawRect(0, 0, CARD_WIDTH - 10, IMAGE_HEIGHT - 10);
+            placeholder.drawRect(0, 0, IMAGE_HEIGHT - 10, IMAGE_HEIGHT - 10);
             placeholder.position.set(5, TITLE_BAR_HEIGHT + 5);
             cardContainer.addChild(placeholder);
 
             const imageSprite = new PIXI.Sprite(PIXI.Texture.from(card.thumbnail_url));
             imageSprite.position.set(5, TITLE_BAR_HEIGHT + 5);
-            imageSprite.width = CARD_WIDTH - 10;
+            imageSprite.width = IMAGE_HEIGHT - 10;
             imageSprite.height = IMAGE_HEIGHT - 10;
             cardContainer.addChild(imageSprite);
             card.imageSprite = imageSprite;
@@ -404,9 +393,9 @@
                 fontSize: 25,
                 fill: 0x00DDDD,
                 fontWeight: 'bold',
-                anchor: { y: 0.5 }
             });
             titleText.position.set(10, 16);
+            titleText.resolution = 2;
             cardContainer.addChild(titleText);
 
             const theorySubText = new PIXI.Text(`${card.theory_name.toUpperCase()} - ${card.sub_theory_name.toUpperCase()}`, {
@@ -414,9 +403,9 @@
                 fontSize: 16,
                 fill: 0xFF5555,
                 fontWeight: 'bold',
-                anchor: { y: 0.5 }
             });
             theorySubText.position.set(10, 38);
+            theorySubText.resolution = 2;
             cardContainer.addChild(theorySubText);
 
             const sourceText = new PIXI.Text(card.source_name.toUpperCase(), {
@@ -424,9 +413,9 @@
                 fontSize: 16,
                 fill: 0xFF5555,
                 fontWeight: 'bold',
-                anchor: { y: 0.5 }
             });
             sourceText.position.set(10, 58);
+            sourceText.resolution = 2;
             cardContainer.addChild(sourceText);
 
             const factText = new PIXI.Text(card.is_fact ? 'FACT' : 'OPINION', {
@@ -434,20 +423,24 @@
                 fontSize: 16,
                 fill: card.is_fact ? 0x00FF00 : 0xFFFF00,
                 fontWeight: 'bold',
-                anchor: { x: 1, y: 0.5 }
             });
             factText.position.set(CARD_WIDTH - 10, 58);
+            factText.anchor.set(1,0.5);
+            factText.resolution = 2;
             cardContainer.addChild(factText);
 
             const descText = new PIXI.Text(card.description, {
                 fontFamily: 'Jura',
                 fontSize: 15,
+                lineHeight: 16,
                 fill: 0xFF5555,
                 fontWeight: 'bold',
                 wordWrap: true,
-                wordWrapWidth: CARD_WIDTH - 70
+                wordWrapWidth: CARD_WIDTH - 30,
+                padding: 10,
             });
-            descText.position.set(8, TITLE_BAR_HEIGHT + IMAGE_HEIGHT + 7);
+            descText.position.set(10, TITLE_BAR_HEIGHT + IMAGE_HEIGHT + 7);
+            descText.resolution = 2;
             cardContainer.addChild(descText);
 
             card.zoomSensitive = [titleText, theorySubText, sourceText, factText, descText];
@@ -479,28 +472,6 @@
             gridGraphics.moveTo(0, y);
             gridGraphics.lineTo(w, y);
         }
-
-        const majorSpacing = spacing * MAJOR_MULT;
-        let majorStartX = offsetX % majorSpacing;
-        if (majorStartX < 0) majorStartX += majorSpacing;
-        let majorStartY = offsetY % majorSpacing;
-        if (majorStartY < 0) majorStartY += majorSpacing;
-
-        gridGraphics.lineStyle(1.5, 0x552222);
-        for (let x = majorStartX; x < w; x += majorSpacing) {
-            gridGraphics.moveTo(x, 0);
-            gridGraphics.lineTo(x, h);
-        }
-        for (let y = majorStartY; y < h; y += majorSpacing) {
-            gridGraphics.moveTo(0, y);
-            gridGraphics.lineTo(w, y);
-        }
-
-        gridGraphics.lineStyle(2, 0x773333);
-        gridGraphics.moveTo(0, offsetY);
-        gridGraphics.lineTo(w, offsetY);
-        gridGraphics.moveTo(offsetX, 0);
-        gridGraphics.lineTo(offsetX, h);
     }
 
     function updateZoomAlphas() {
