@@ -2,19 +2,73 @@
   "theories": [
     {
       "id": 1,
-      "name": "Laptop"
+      "name": "Lilith - Witcher",
+      "sub_theories": [
+        {
+          "id": 1,
+          "name": "Origin"
+        },
+        {
+          "id": 2,
+          "name": "Cult"
+        },
+        {
+          "id": 3,
+          "name": "Black Sun"
+        },
+        {
+          "id": 4,
+          "name": "Lilvani"
+        }
+      ]
     },
     {
       "id": 2,
-      "name": "Arasaka Tower 3D"
+      "name": "Gaunter O'Dimm",
+      "sub_theories": [
+        {
+          "id": 1,
+          "name": "Identity"
+        },
+        {
+          "id": 2,
+          "name": "Details"
+        },
+        {
+          "id": 3,
+          "name": "Cyberpunk"
+        }
+      ]
     },
     {
       "id": 3,
-      "name": "Moon"
+      "name": "Moon / Crystal Palace",
+      "sub_theories": [
+        {
+          "id": 1,
+          "name": "The Same Moon ?"
+        },
+        {
+          "id": 2,
+          "name": "Tarot"
+        },
+        {
+          "id": 3,
+          "name": "Moon"
+        },
+        {
+          "id": 4,
+          "name": "Crystal Palace"
+        },
+        {
+          "id": 5,
+          "name": "Orion Spoilers ?"
+        }
+      ]
     },
     {
       "id": 4,
-      "name": "Vampires"
+      "name": "Blackwall"
     },
     {
       "id": 5,
@@ -22,52 +76,36 @@
     },
     {
       "id": 6,
-      "name": "Lilith",
+      "name": "Lilith - Cyberpunk",
       "sub_theories": [
         {
           "id": 1,
-          "name": "Bloody Ritual"
+          "name": "Real Lore"
         },
         {
           "id": 2,
-          "name": "Witcher Cult"
+          "name": "Bloody Ritual"
         },
         {
           "id": 3,
-          "name": "Wicca"
+          "name": "Garry / Bum"
         },
         {
           "id": 4,
-          "name": "Religion / Folklore"
+          "name": "Maelstrom"
         },
         {
           "id": 5,
-          "name": "Lilvani / Melitele"
-        },
-        {
-          "id": 6,
-          "name": "Vampires"
-        },
-        {
-          "id": 7,
-          "name": "Gaunter O'Dimm"
+          "name": "10th Circle"
         }
       ]
     },
     {
       "id": 7,
-      "name": "Gaunter O'Dimm"
+      "name": "Grand Scheme"
     },
     {
       "id": 8,
-      "name": "Destroyed Bastion"
-    },
-    {
-      "id": 9,
-      "name": "Cats"
-    },
-    {
-      "id": 10,
       "name": "Statue",
       "sub_theories": [
         {
@@ -101,49 +139,41 @@
       ]
     },
     {
-      "id": 11,
+      "id": 9,
+      "name": "Rogue AI"
+    },
+    {
+      "id": 10,
       "name": "Blue Eyes"
     },
     {
-      "id": 12,
-      "name": "Night Corp"
-    },
-    {
-      "id": 13,
-      "name": "FF06B5 Core",
+      "id": 11,
+      "name": "Vampires",
       "sub_theories": [
         {
           "id": 1,
-          "name": "Timeline"
+          "name": "Gharasham"
         },
         {
           "id": 2,
-          "name": "Church Logs"
+          "name": "Ammurun"
         },
         {
           "id": 3,
-          "name": "Laptop Solution"
+          "name": "Tdet"
         },
         {
           "id": 4,
-          "name": "Ourobotos Solution"
+          "name": "Symbols"
         },
         {
           "id": 5,
-          "name": "Cube Cutscene"
-        },
-        {
-          "id": 6,
-          "name": "Cube Logs"
-        },
-        {
-          "id": 7,
-          "name": "Watcher"
+          "name": "Unseen Elder"
         }
       ]
     },
     {
-      "id": 14,
+      "id": 12,
       "name": "Ouroboros",
       "sub_theories": [
         {
@@ -165,16 +195,130 @@
       ]
     },
     {
+      "id": 13,
+      "name": "FF06B5 Core",
+      "sub_theories": [
+        {
+          "id": 1,
+          "name": "Timeline"
+        },
+        {
+          "id": 2,
+          "name": "Church Logs"
+        },
+        {
+          "id": 3,
+          "name": "Laptop Solution"
+        },
+        {
+          "id": 4,
+          "name": "Ouroboros Solution"
+        },
+        {
+          "id": 5,
+          "name": "Cube Cutscene"
+        },
+        {
+          "id": 6,
+          "name": "Cube Logs"
+        },
+        {
+          "id": 7,
+          "name": "Watcher"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Arasaka Tower 3D"
+    },
+    {
       "id": 15,
-      "name": "Polyhistor"
+      "name": "Night Corp"
     },
     {
       "id": 16,
-      "name": "Tyromanta"
+      "name": "Destroyed Bastion",
+      "sub_theories": [
+        {
+          "id": 1,
+          "name": "Exterior Analysis"
+        },
+        {
+          "id": 2,
+          "name": "Interior Analysis"
+        },
+        {
+          "id": 3,
+          "name": "Body Analysis"
+        },
+        {
+          "id": 4,
+          "name": "Lore Analysis"
+        }
+      ]
     },
     {
       "id": 17,
-      "name": "AI"
+      "name": "Cats"
+    },
+    {
+      "id": 18,
+      "name": "Unsolved",
+      "sub_theories": [
+        {
+          "id": 1,
+          "name": "Witcher 4 Mystery ?"
+        },
+        {
+          "id": 2,
+          "name": "FF06B5 Core Inconsistencies"
+        },
+        {
+          "id": 3,
+          "name": "Connection Between Worlds"
+        },
+        {
+          "id": 4,
+          "name": "Zerrikania DLC ?"
+        },
+        {
+          "id": 5,
+          "name": "Misty's Chakra Diagram"
+        },
+        {
+          "id": 6,
+          "name": "Shards"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Polyhistor"
+    },
+    {
+      "id": 20,
+      "name": "Tyromanta"
+    },
+    {
+      "id": 21,
+      "name": ""
+    },
+    {
+      "id": 22,
+      "name": ""
+    },
+    {
+      "id": 23,
+      "name": "Peralez"
+    },
+    {
+      "id": 24,
+      "name": "Mikoshi"
+    },
+    {
+      "id": 25,
+      "name": "Zen Master"
     }
   ],
   "sources": [
@@ -201,194 +345,175 @@
   ],
   "cards": [
     {
+      "id": "191126b0-dc9e-4feb-861d-41d1f8689d07",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "FF06B5 Ouroboros",
-      "description": "The symbol was found in a hidden chamber at the bottom of a newly added location 'Destroyed Bastion'. It's visible on wall to the right after entering the chamber. The symbol clearly features the vampiric ouroboros but with some changes and added text.",
-      "thumbnail_url": "Images/Thumbnail/191126b0-dc9e-4feb-861d-41d1f8689d07.jpg",
-      "image_url": "Images/Full/191126b0-dc9e-4feb-861d-41d1f8689d07.jpg"
+      "description": "The symbol was found in a hidden chamber at the bottom of a newly added location 'Destroyed Bastion'. It's visible on wall to the right after entering the chamber. The symbol clearly features the vampiric ouroboros but with some changes and added text."
     },
     {
+      "id": "33bdacf3-2f6a-47c5-afba-34a21eff4aee",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Tdet Tribe Symbol",
-      "description": "The symbol of the vampiric Tdet tribe visible in both Tesham Mutna and Unseen Elder's cave. What's interesting here is that the symbol uses the exact same snake as on the vampiric ouroboros.",
-      "thumbnail_url": "Images/Thumbnail/33bdacf3-2f6a-47c5-afba-34a21eff4aee.jpg",
-      "image_url": "Images/Full/33bdacf3-2f6a-47c5-afba-34a21eff4aee.jpg"
+      "description": "The symbol of the vampiric Tdet tribe visible in both Tesham Mutna and Unseen Elder's cave. What's interesting here is that the symbol uses the exact same snake as on the vampiric ouroboros."
     },
     {
+      "id": "01c5de84-e822-4d3e-a8ef-044d5ccd47e9",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Unseen Elder's Cave",
-      "description": "Vampiric ouroboros visible above an arch when leaving the cave with the inverted gravity inside of the Unseen Elder's cave. This is the pure vampiric ouroboros with its base colors, and without any text.",
-      "thumbnail_url": "Images/Thumbnail/01c5de84-e822-4d3e-a8ef-044d5ccd47e9.jpg",
-      "image_url": "Images/Full/01c5de84-e822-4d3e-a8ef-044d5ccd47e9.jpg"
+      "description": "Vampiric ouroboros visible above an arch when leaving the cave with the inverted gravity inside of the Unseen Elder's cave. This is the pure vampiric ouroboros with its base colors, and without any text."
     },
     {
+      "id": "bb2a2ec8-b5ee-4b68-9951-3e774b20b407",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Tesham Mutna Chamber",
-      "description": "Another vampiric ouroboros visible in the chamber at the very bottom of Tesham Mutna. The symbol is partially covered by rubble and it's rather large so you can easily miss it. The chamber in which it was located was used as jail for vampire Khagmar.",
-      "thumbnail_url": "Images/Thumbnail/bb2a2ec8-b5ee-4b68-9951-3e774b20b407.jpg",
-      "image_url": "Images/Full/bb2a2ec8-b5ee-4b68-9951-3e774b20b407.jpg"
+      "description": "Another vampiric ouroboros visible in the chamber at the very bottom of Tesham Mutna. The symbol is partially covered by rubble and it's rather large so you can easily miss it. The chamber in which it was located was used as jail for vampire Khagmar."
     },
     {
+      "id": "a7722363-8253-42b6-9330-5a24a214094e",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Regis's Glove",
-      "description": "Visible on Regis's glove which suggests that the symbol has a deep cultural meaning since it's a part of his attire.",
-      "thumbnail_url": "Images/Thumbnail/a7722363-8253-42b6-9330-5a24a214094e.jpg",
-      "image_url": "Images/Full/a7722363-8253-42b6-9330-5a24a214094e.jpg"
+      "description": "Visible on Regis's glove which suggests that the symbol has a deep cultural meaning since it's a part of his attire."
     },
     {
+      "id": "066c413e-716d-46a0-b1bd-b1bb3a2d1793",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Regis's Bag",
-      "description": "Visible on Regis's bag which suggests that the symbol has a deep cultural meaning since it's a part of his attire. Unlike the regular vampiric ouroboros this one has the loops on the inside. Additionally it features a different center, 4 convex lines resembling a diamond shape.",
-      "thumbnail_url": "Images/Thumbnail/066c413e-716d-46a0-b1bd-b1bb3a2d1793.jpg",
-      "image_url": "Images/Full/066c413e-716d-46a0-b1bd-b1bb3a2d1793.jpg"
+      "description": "Visible on Regis's bag which suggests that the symbol has a deep cultural meaning since it's a part of his attire. Unlike the regular vampiric ouroboros this one has the loops on the inside. Additionally it features a different center, 4 convex lines resembling a diamond shape."
     },
     {
+      "id": "2bc40909-b106-4e3d-8cf5-cc9c5962158d",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Regis's Tunic Chain",
-      "description": "Visible on Regis's tunic brooches which suggests that the symbol has a deep cultural meaning since it's a part of his attire. Unlike the regular vampiric ouroboros this one has the loops on the inside. Additionally it features a different center, 4 convex lines resembling a diamond shape.",
-      "thumbnail_url": "Images/Thumbnail/2bc40909-b106-4e3d-8cf5-cc9c5962158d.jpg",
-      "image_url": "Images/Full/2bc40909-b106-4e3d-8cf5-cc9c5962158d.jpg"
+      "description": "Visible on Regis's tunic brooches which suggests that the symbol has a deep cultural meaning since it's a part of his attire. Unlike the regular vampiric ouroboros this one has the loops on the inside. Additionally it features a different center, 4 convex lines resembling a diamond shape."
     },
     {
+      "id": "6fb3db8c-8472-4d8a-b191-b247e37857c2",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Tesham Mutna Door Seal",
-      "description": "When entering Tesham Mutna with Regis he waves his hand in front of a sealed door. Afterwards a vampiric ouroboros shaped red seal appears on its surface. Regis exclaims that it's a form of protection against unwanted guests, and the the mechanism reacts only to the higher vampire's blood.",
-      "thumbnail_url": "Images/Thumbnail/6fb3db8c-8472-4d8a-b191-b247e37857c2.jpg",
-      "image_url": "Images/Full/6fb3db8c-8472-4d8a-b191-b247e37857c2.jpg"
+      "description": "When entering Tesham Mutna with Regis he waves his hand in front of a sealed door. Afterwards a vampiric ouroboros shaped red seal appears on its surface. Regis exclaims that it's a form of protection against unwanted guests, and the the mechanism reacts only to the higher vampire's blood."
     },
     {
+      "id": "427634e5-6083-43a7-9433-39eaae0bfad4",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 3,
       "title": "Ouroboros Amulet",
-      "description": "One of the trash items found in the Unseen Elder's cave. We can also find a ring with a similar red stone, as well as a figurine featuring a vampire. The fact that this ouroboros is present even in ancient vampiric jewelry proves that this symbol has a deep cultural meaning.",
-      "thumbnail_url": "Images/Thumbnail/427634e5-6083-43a7-9433-39eaae0bfad4.jpg",
-      "image_url": "Images/Full/427634e5-6083-43a7-9433-39eaae0bfad4.jpg"
+      "description": "One of the trash items found in the Unseen Elder's cave. We can also find a ring with a similar red stone, as well as a figurine featuring a vampire. The fact that this ouroboros is present even in ancient vampiric jewelry proves that this symbol has a deep cultural meaning."
     },
     {
+      "id": "c51afda2-675e-4f09-9d7c-00c8dea9b39c",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 10,
       "title": "Gwent Regis Cardback",
-      "description": "This Gwent cardback features the regular ouroboros with the loops on the outside but the inside looks like the diamond shape present on Regis's bag, and tunic chain. Additionally the diamond shape blends into an infinity symbol visible in the background.",
-      "thumbnail_url": "Images/Thumbnail/c51afda2-675e-4f09-9d7c-00c8dea9b39c.jpg",
-      "image_url": "Images/Full/c51afda2-675e-4f09-9d7c-00c8dea9b39c.jpg"
+      "description": "This Gwent cardback features the regular ouroboros with the loops on the outside but the inside looks like the diamond shape present on Regis's bag, and tunic chain. Additionally the diamond shape blends into an infinity symbol visible in the background."
     },
     {
+      "id": "39cd1d77-abf6-40cb-a21f-c7b245bfa9fc",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 10,
       "title": "Gwent Carnage Cardback",
-      "description": "This Gwent cardback features the same circles and triangle present in the center of the vampiric ouroboros.",
-      "thumbnail_url": "Images/Thumbnail/39cd1d77-abf6-40cb-a21f-c7b245bfa9fc.jpg",
-      "image_url": "Images/Full/39cd1d77-abf6-40cb-a21f-c7b245bfa9fc.jpg"
+      "description": "This Gwent cardback features the same circles and triangle present in the center of the vampiric ouroboros."
     },
     {
+      "id": "b2912d0e-d81c-4464-bdc9-529dba9e6b76",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 10,
       "title": "Gwent Regis Coin",
-      "description": "Regis's coin from Gwent. It features the classic vampiric ouroboros. The text on the edges spells out Regis's full name.",
-      "thumbnail_url": "Images/Thumbnail/b2912d0e-d81c-4464-bdc9-529dba9e6b76.jpg",
-      "image_url": "Images/Full/b2912d0e-d81c-4464-bdc9-529dba9e6b76.jpg"
+      "description": "Regis's coin from Gwent. It features the classic vampiric ouroboros. The text on the edges spells out Regis's full name."
     },
     {
+      "id": "222e6b0c-4cfe-4a59-a59a-542928758332",
       "is_fact": true,
-      "theory_id": 14,
+      "theory_id": 12,
       "sub_theory_id": 1,
       "source_id": 10,
       "title": "Gwent Regis Skin",
-      "description": "One of the Gwent Regis skins features a slightly different version of the ouroboros. The interesting part is that the snake loops and even the head are presented as circles which might add extra meaning to the symbol.",
-      "thumbnail_url": "Images/Thumbnail/222e6b0c-4cfe-4a59-a59a-542928758332.jpg",
-      "image_url": "Images/Full/222e6b0c-4cfe-4a59-a59a-542928758332.jpg"
+      "description": "One of the Gwent Regis skins features a slightly different version of the ouroboros. The interesting part is that the snake loops and even the head are presented as circles which might add extra meaning to the symbol."
     },
     {
+      "id": "45b49af2-e7af-4711-b53a-1f13eaf905ca",
       "is_fact": true,
       "theory_id": 13,
       "sub_theory_id": 3,
       "source_id": 20,
       "title": "1. Laptop Discovered",
-      "description": "The laptop was discovered not far from Tyromanta's body among the trash piles. Upon opening it we can see the vampiric ouroboros in the background followed by Witcher glagolitic alphabet (slightly different than the real glagolitic alphabet).",
-      "thumbnail_url": "Images/Thumbnail/45b49af2-e7af-4711-b53a-1f13eaf905ca.jpg",
-      "image_url": "Images/Full/45b49af2-e7af-4711-b53a-1f13eaf905ca.jpg"
+      "description": "The laptop was discovered not far from Tyromanta's body among the trash piles. Upon opening it we can see the vampiric ouroboros in the background followed by Witcher glagolitic alphabet (slightly different than the real glagolitic alphabet)."
     },
     {
+      "id": "e1ee2b1b-14bc-4b53-acb2-0333f0d1348a",
       "is_fact": true,
       "theory_id": 13,
       "sub_theory_id": 3,
       "source_id": 20,
       "title": "2. Laptop Translated",
-      "description": "Thanks to the Witcher 3 rosetta stone all of the characters were translated to regular ASCII characters.",
-      "thumbnail_url": "Images/Thumbnail/e1ee2b1b-14bc-4b53-acb2-0333f0d1348a.jpg",
-      "image_url": "Images/Full/e1ee2b1b-14bc-4b53-acb2-0333f0d1348a.jpg"
+      "description": "Thanks to the Witcher 3 rosetta stone all of the characters were translated to regular ASCII characters."
     },
     {
+      "id": "b800dcf8-8992-4d24-b444-ed3add3876ea",
       "is_fact": true,
       "theory_id": 13,
       "sub_theory_id": 3,
       "source_id": 20,
       "title": "3. Prime Assignment",
-      "description": "Based on the occurrence of the vertical pairs on each cross it was deduced by Til, Tokyo_Jinx, and Fuji that each cross corresponds to a hex converted prime number. Therefore hex converted prime numbers were assigned to each cross from left to right, and from top to bottom.",
-      "thumbnail_url": "Images/Thumbnail/b800dcf8-8992-4d24-b444-ed3add3876ea.jpg",
-      "image_url": "Images/Full/b800dcf8-8992-4d24-b444-ed3add3876ea.jpg"
+      "description": "Based on the occurrence of the vertical pairs on each cross it was deduced by Til, Tokyo_Jinx, and Fuji that each cross corresponds to a hex converted prime number. Therefore hex converted prime numbers were assigned to each cross from left to right, and from top to bottom."
     },
     {
+      "id": "a9eca27d-036d-4c0c-8026-1113c777166b",
       "is_fact": true,
       "theory_id": 13,
       "sub_theory_id": 3,
       "source_id": 20,
       "title": "4. Letter Table",
-      "description": "Thanks to the assigned primes we can now take the characters from the left side of the cross and assign them to the value of the left character of the hex prime. The characters on the right side of the cross get assigned to the right character of the hex prime. For example this means that based on the top left cross with the hex prime 02, 0=P and 2=HU. As a result based on the whole laptop we get the following substitution table. Some letters are unfortunately not on the laptop so we are left with letters JLMQRX.",
-      "thumbnail_url": "Images/Thumbnail/a9eca27d-036d-4c0c-8026-1113c777166b.jpg",
-      "image_url": "Images/Full/a9eca27d-036d-4c0c-8026-1113c777166b.jpg"
+      "description": "Thanks to the assigned primes we can now take the characters from the left side of the cross and assign them to the value of the left character of the hex prime. The characters on the right side of the cross get assigned to the right character of the hex prime. For example this means that based on the top left cross with the hex prime 02, 0=P and 2=HU. As a result based on the whole laptop we get the following substitution table. Some letters are unfortunately not on the laptop so we are left with letters JLMQRX."
     },
     {
+      "id": "ea973b1d-62e3-44cd-8e0b-076a64ab6ea1",
       "is_fact": true,
       "theory_id": 13,
       "sub_theory_id": 3,
       "source_id": 20,
       "title": "5. Post Ouroboros",
-      "description": "After solving the ouroboros we get two additional values 6=Q, and 4=R, which can be added onto the substitution table in case this table will be used for something else down the line. This means that that we are still left with letters JLMX.",
-      "thumbnail_url": "Images/Thumbnail/ea973b1d-62e3-44cd-8e0b-076a64ab6ea1.jpg",
-      "image_url": "Images/Full/ea973b1d-62e3-44cd-8e0b-076a64ab6ea1.jpg"
+      "description": "After solving the ouroboros we get two additional values 6=Q, and 4=R, which can be added onto the substitution table in case this table will be used for something else down the line. This means that that we are still left with letters JLMX."
     },
     {
+      "id": "86959e72-520c-4a58-bbdf-a73bce50cc7e",
       "is_fact": false,
       "theory_id": 13,
       "sub_theory_id": 3,
       "source_id": 20,
       "title": "Solution Disclaimer",
-      "description": "It is possible that some step in this solution was missed because we require the letters R and Q to solve the ouroboros yet we don't get them from the laptop. It's possible that perhaps there is some pattern which allows us to also get the remaining letters.",
-      "thumbnail_url": "Images/Thumbnail/86959e72-520c-4a58-bbdf-a73bce50cc7e.jpg",
-      "image_url": "Images/Full/86959e72-520c-4a58-bbdf-a73bce50cc7e.jpg"
+      "description": "It is possible that some step in this solution was missed because we require the letters R and Q to solve the ouroboros yet we don't get them from the laptop. It's possible that perhaps there is some pattern which allows us to also get the remaining letters."
     }
   ]
 }
