@@ -223,7 +223,7 @@
                     return json;
                 })
                 .then(data => {
-                    return Promise.all(json.cards.map(card => loadImage(card.id, `/Images/Thumbnail/${card.id}.jpg`)))
+                    return Promise.all(json.cards.map(card => loadImage(card.id, `./Images/Thumbnail/${card.id}.jpg`)))
                         .then(loadedImages => {
                             console.log(thumbnails);
                             return loadedImages;
@@ -861,7 +861,7 @@
                 const sh = w2sL(IMAGE_HEIGHT);
 
                 if (mx >= sx && mx <= sx + sw && my >= sy && my <= sy + sh) {
-                    fullscreenImage.src = `/Images/Full/${card.id}.jpg`;
+                    fullscreenImage.src = `./Images/Full/${card.id}.jpg`;
                     fullscreenModal.style.display = 'flex';
                     return;
                 }
