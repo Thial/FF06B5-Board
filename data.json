@@ -2,11 +2,11 @@
   "theories": [
     {
       "id": 1,
-      "name": "Lilith - Witcher",
+      "name": "Lilith",
       "sub_theories": [
         {
           "id": 1,
-          "name": "Origin"
+          "name": "Lore"
         },
         {
           "id": 2,
@@ -18,6 +18,18 @@
         },
         {
           "id": 4,
+          "name": "Bloody Ritual"
+        },
+        {
+          "id": 5,
+          "name": "Garry / Bum"
+        },
+        {
+          "id": 6,
+          "name": "10th Circle"
+        },
+        {
+          "id": 7,
           "name": "Lilvani"
         }
       ]
@@ -32,11 +44,11 @@
         },
         {
           "id": 2,
-          "name": "Details"
+          "name": "Cyberpunk"
         },
         {
           "id": 3,
-          "name": "Cyberpunk"
+          "name": "Gaunter=Lilvani=Lilith?"
         }
       ]
     },
@@ -76,29 +88,7 @@
     },
     {
       "id": 6,
-      "name": "Lilith - Cyberpunk",
-      "sub_theories": [
-        {
-          "id": 1,
-          "name": "Real Lore"
-        },
-        {
-          "id": 2,
-          "name": "Bloody Ritual"
-        },
-        {
-          "id": 3,
-          "name": "Garry / Bum"
-        },
-        {
-          "id": 4,
-          "name": "Maelstrom"
-        },
-        {
-          "id": 5,
-          "name": "10th Circle"
-        }
-      ]
+      "name": ""
     },
     {
       "id": 7,
@@ -182,14 +172,18 @@
         },
         {
           "id": 2,
-          "name": "Element Analysis"
+          "name": "Snake Analysis"
         },
         {
           "id": 3,
-          "name": "Triangle Analysis"
+          "name": "Circles Analysis"
         },
         {
           "id": 4,
+          "name": "Triangle Analysis"
+        },
+        {
+          "id": 5,
           "name": "Flame Analysis"
         }
       ]
@@ -335,12 +329,24 @@
       "name": "Witcher 3"
     },
     {
+      "id": 4,
+      "name": "Witcher 4"
+    },
+    {
       "id": 10,
       "name": "Gwent"
     },
     {
+      "id": 11,
+      "name": "The Witcher: Monster Slayer"
+    },
+    {
       "id": 20,
       "name": "Cyberpunk 2077"
+    },
+    {
+      "id": 90,
+      "name": "Discord - Witcher"
     }
   ],
   "cards": [
@@ -498,6 +504,15 @@
       "description": "Thanks to the assigned primes we can now take the characters from the left side of the cross and assign them to the value of the left character of the hex prime. The characters on the right side of the cross get assigned to the right character of the hex prime. For example this means that based on the top left cross with the hex prime 02, 0=P and 2=HU. As a result based on the whole laptop we get the following substitution table. Some letters are unfortunately not on the laptop so we are left with letters JLMQRX."
     },
     {
+      "id": "86959e72-520c-4a58-bbdf-a73bce50cc7e",
+      "is_fact": false,
+      "theory_id": 13,
+      "sub_theory_id": 3,
+      "source_id": 20,
+      "title": "Solution Disclaimer",
+      "description": "It is possible that some step in this solution was missed because we require the letters R and Q to solve the ouroboros yet we don't get them from the laptop. It's possible that perhaps there is some pattern which allows us to also get the remaining letters."
+    },
+    {
       "id": "ea973b1d-62e3-44cd-8e0b-076a64ab6ea1",
       "is_fact": true,
       "theory_id": 13,
@@ -507,13 +522,202 @@
       "description": "After solving the ouroboros we get two additional values 6=Q, and 4=R, which can be added onto the substitution table in case this table will be used for something else down the line. This means that that we are still left with letters JLMX."
     },
     {
-      "id": "86959e72-520c-4a58-bbdf-a73bce50cc7e",
-      "is_fact": false,
-      "theory_id": 13,
+      "id": "1dd6e42c-34bb-41f7-9b04-f52d84d347b8",
+      "is_fact": true,
+      "theory_id": 18,
+      "sub_theory_id": 1,
+      "source_id": 90,
+      "title": "The Image",
+      "description": "Back in April 2025 Lilayah shared the following picture on the Witcher 4 discord channel. The text says: 'Ominous atmosphere there. I have goosebumps. Brrr. Margit.'. The image portrays some rock formation and most likely a stream (could be also a road). In the background we can see pine trees which only appear in Kaer Morhen and Skellige in Witcher 3 but it's not clear if this place exists in Witcher 3. The picture itself is titled 'MARGIT_Drawing__LP'. Internal history data suggests that the picture was already created in October 2024."
+    },
+    {
+      "id": "6e682ca0-89f7-4e78-9ad3-fbcc07e626c2",
+      "is_fact": true,
+      "theory_id": 18,
+      "sub_theory_id": 1,
+      "source_id": 90,
+      "title": "Image Analysis",
+      "description": "Analysis of the image data doesn't yield anything apart from the image's history. Extraction of different channels also doesn't reveal any hidden artifacts. Additionally the picture was passed through Aperi Solve to see if perhaps something was hidden even more carefully but that also didn't yield any results. For now it can be assumed that the picture itself doesn't hide any secrets which of course doesn't mean that the picture isn't meant to be used in some other way."
+    },
+    {
+      "id": "c257a7e0-acea-46f2-b842-e4b315bbf380",
+      "is_fact": true,
+      "theory_id": 18,
+      "sub_theory_id": 1,
+      "source_id": 11,
+      "title": "Margit",
+      "description": "Margit is a female character who appears in the mobile game 'The Witcher: Monster Slayer' which was discontinued in 2023. She appears to be some type of scholar/investigator and she's a part of two quests, 'Good Money' and 'What Lurks In the Nemeta'. In the first one we give her an elven figure which she then breaks and finds a scroll inside. She also mentions ink which is able to leave secret messages. In the second quest we find out that her associate was researching a nemeton (tree monster)."
+    },
+    {
+      "id": "c94f2061-0b4d-4bb8-bd41-6415c86c22b2",
+      "is_fact": true,
+      "theory_id": 18,
+      "sub_theory_id": 1,
+      "source_id": 11,
+      "title": "Glossary",
+      "description": "Her description states something very interesting: 'She was once seen at midnight, clad in nothing but moonlight, smearing jar upon jar of creams and ointments into her skin and hair. She leapt wildly as she did this, hooting incomprehensibly.'. This clearly describes some ritual. What's interesting here is that it fits to IRL lore of Lilith who is the Goddess of the Moon and one of the animals she's connected to is a screech owl. It is unknown if this is the intended conclusion or a coincidence."
+    },
+    {
+      "id": "8e85e62f-c626-4197-8b57-59db9bcdc5c0",
+      "is_fact": true,
+      "theory_id": 18,
+      "sub_theory_id": 1,
+      "source_id": 3,
+      "title": "The Statue",
+      "description": "The statue which Margit breaks oddly resembles the one broken by Olgierd von Everec in Witcher 3. It is unknown if there is any real connection here or a merely a similar appearance."
+    },
+    {
+      "id": "c92030e5-adb5-45ec-9fd1-c440600b12e5",
+      "is_fact": true,
+      "theory_id": 18,
+      "sub_theory_id": 1,
+      "source_id": 90,
+      "title": "The Messages",
+      "description": "Additionally Lilayah left a couple of messages on Discord which look like important clues. First of all she repeatedly talks about rocks/stones and turning them. It's unclear if she means just looking for something, literally turning the image around, searching for the location in game, or something different. When someone brought up Margit's glossary description about the ritual she also replied that it's a good direction and to dig deeper."
+    },
+    {
+      "id": "bc1f8269-f564-48ca-b741-d2aedb3c2479",
+      "is_fact": true,
+      "theory_id": 18,
+      "sub_theory_id": 1,
+      "source_id": 90,
+      "title": "Rotation Theory",
+      "description": "Some people assumed that turning the stone around might have something to do with overlaying multiple instances of the same image and rotating them in order to reveal something hidden. The Witcher 4 discord channel has plenty of various attempts but nothing was found apart from various shapes which look like something demonic but there's no way to objectively confirm the validity of any of them. It's unknown if the method itself is incorrect or if nobody found the right solution yet."
+    },
+    {
+      "id": "79960521-f26a-4988-99d4-6c931a82d5f7",
+      "is_fact": true,
+      "theory_id": 18,
+      "sub_theory_id": 1,
+      "source_id": 3,
+      "title": "Witcher 3 Achievement",
+      "description": "Lilayah used the exact phrase 'turned every stone' and as it happens there is a Blood and Wine achievement 'Turned Every Stone' which relates to finding all of the Grandmaster Witcher Gear. It is unknown if this is intended or a mere coincidence."
+    },
+    {
+      "id": "b25131a5-7974-4bec-9c0f-97b8c304e89c",
+      "is_fact": true,
+      "theory_id": 1,
+      "sub_theory_id": 7,
+      "source_id": 3,
+      "title": "Temple of Lilvani",
+      "description": "We get properly introduced to Lilvani at the end of the Hearts of Stone expansion. Gaunter O'Dimm tells us to go to the Temple of Lilvani. The place is mostly ruined and it features a small stone altar together with statues of Lilvani on both sides, as well as a big Moon mosaic on the ground."
+    },
+    {
+      "id": "2ee26c0c-5a7f-45bb-9cc9-0cdb39141cee",
+      "is_fact": true,
+      "theory_id": 1,
+      "sub_theory_id": 7,
+      "source_id": 3,
+      "title": "Statue of Lilvani",
+      "description": "The Temple of Lilvani also features her statues. The statues show a young naked woman with open arms which either depicts a welcoming gesture or bestowing a blessing upon the faithful. What's interesting here is that this statue exists in many different places and even previous games."
+    },
+    {
+      "id": "a6d57b32-d2bb-415d-a1cd-06e21508a8cb",
+      "is_fact": true,
+      "theory_id": 1,
+      "sub_theory_id": 7,
+      "source_id": 3,
+      "title": "Gaunter's Connection",
+      "description": "What's incredibly interesting here is that for whatever reason when we challenge Gaunter O'Dimm to a game he chooses to transport us to some different place which also features the Temple of Lilvani, just really ruined and overgrown one which by itself suggests a connection. The question is whether this is a real place and Gaunter specifically chose it or if his powers are so great that he was able to conjure up such a place."
+    },
+    {
+      "id": "c9d3fb27-f797-4e0d-aa76-e3e60ca18ab8",
+      "is_fact": true,
+      "theory_id": 1,
+      "sub_theory_id": 7,
+      "source_id": 3,
+      "title": "Palace Statue",
+      "description": "The final palace where we face off against Gaunter also contains the statue of Lilvani which is a strong indication that the whole palace is related to Lilvani. Gaunter's obsession with this symbolism might be an indication that he himself is Lilvani or that he's related to her."
+    },
+    {
+      "id": "c5e4eeeb-a153-47b2-936a-214fd7c1948e",
+      "is_fact": true,
+      "theory_id": 1,
+      "sub_theory_id": 7,
+      "source_id": 3,
+      "title": "Sands of Time",
+      "description": "Possibly the craziest piece of evidence comes from Gwent. In the Black Sun expansion (Lilith related) a new board `Sands of Time` was released. The name itself is interesting since Gaunter O'Dimm could control time. Additionally it's not just any board because it features the Temple of Lilvani. This is very interesting because Lilvani was supposed to be only an ancient deity from the Northern Kingdoms but now she appears somewhere in the East (possibly around Zerrikania or Ofir)."
+    },
+    {
+      "id": "f5f6381d-81ab-4d56-9c98-ff56d5c79304",
+      "is_fact": true,
+      "theory_id": 1,
+      "sub_theory_id": 7,
+      "source_id": 3,
+      "title": "Painted World",
+      "description": "Another statue can be seen in the painted world of Iris. When approached Geralt explicitly exclaims that he doesn't know this deity which suggests that it's really ancient and forgotten."
+    },
+    {
+      "id": "e350a28e-d1ba-44e9-8c77-9a3a642f4428",
+      "is_fact": true,
+      "theory_id": 2,
       "sub_theory_id": 3,
-      "source_id": 20,
-      "title": "Solution Disclaimer",
-      "description": "It is possible that some step in this solution was missed because we require the letters R and Q to solve the ouroboros yet we don't get them from the laptop. It's possible that perhaps there is some pattern which allows us to also get the remaining letters."
+      "source_id": 3,
+      "title": "Palace Mirror",
+      "description": "Now comes a pretty interesting twist. The final palace where we defeat Gaunter features a bunch of mirrors since like he himself said he is 'Master Mirror' or 'Man of Glass'. But the interesting thing is that this palace also features a statue of Lilvani which suggests that the palace is related to Lilvani. Lilith in her lore is known to hide in mirrors and to receive mirrors as offerings because she lacks her own reflection."
+    },
+    {
+      "id": "e04c02a2-ced2-4d77-8207-1faab572cc1b",
+      "is_fact": true,
+      "theory_id": 2,
+      "sub_theory_id": 3,
+      "source_id": 3,
+      "title": "Hiding In Reflection",
+      "description": "During the final battle Gaunter is hiding in a water reflection (mirror?) which can be seen for a split second before Geralt pulls him out. In Jewish folklore Lilith hides in mirrors, it doesn't explicitly talk about water reflections but since the function is the same it could be assumed that the surface of water also counts."
+    },
+    {
+      "id": "6ed9106c-c4b5-4a1d-84bb-7d1228d3848e",
+      "is_fact": true,
+      "theory_id": 2,
+      "sub_theory_id": 3,
+      "source_id": 3,
+      "title": "Otherworldly Knowledge",
+      "description": "Once Gaunter gets defeated by Geralt he says 3 phrases in 3 different languages from Earth. The full message is: 'You're a cock and the cock is king only atop his pile of manure. You think you've beaten me, you're wrong. I can't be killed. I'll be back.'. This suggests that Gaunter also exists on Earth and can either exist in many places at the same time or materialize anywhere and anytime he wants to, or he can travel between worlds. This also adds weight to the theory that he's also present in Cyberpunk 2077."
+    },
+    {
+      "id": "aa37676f-9dad-4a93-b290-fc66f4465c17",
+      "is_fact": false,
+      "theory_id": 2,
+      "sub_theory_id": 3,
+      "source_id": 10,
+      "title": "Lilvani's Eclipse",
+      "description": "What if we've been lied to? The board Sands of Time from Gwent (Temple of Lilvani) has a special feature where the 'Moon' can glow. But it doesn't glow in a way it should. It emits radiant yellow rays like the Sun. What if we've been tricked and this 'mosaic' actually shows an eclipse with a dark Moon in front of a glowing Sun like on the picture below? This could change everything. Lilith in real lore is also known as the Goddess of the Moon (same as Lilvani). Additionally Gaunter O'Dimm seems to be heavily connected to Lilvani. Coincidence?"
+    },
+    {
+      "id": "72e48db8-0913-4a9f-b059-64e4b73a666a",
+      "is_fact": true,
+      "theory_id": 2,
+      "sub_theory_id": 3,
+      "source_id": 10,
+      "title": "Eclipse Board",
+      "description": "The Eclipse board from Gwent which was released in the Black Sun expansion (Lilith related) showcases the eclipse in the same exact way, a dark Moon in front of a glowing Sun. Similar things can be observed in other media related to the Black Sun."
+    },
+    {
+      "id": "92ed6d91-da08-4dad-8f68-28f27e124154",
+      "is_fact": true,
+      "theory_id": 2,
+      "sub_theory_id": 3,
+      "source_id": 10,
+      "title": "Gaunter and Moon",
+      "description": "Gaunter O'Dimm seems to love the Moon as well. He tends to appear at night when the Moon is out which is very Lilith like since she is the Goddess of the Moon same as Lilvani."
+    },
+    {
+      "id": "f709d0b1-9f7c-4f52-8691-dfe7851aab86",
+      "is_fact": true,
+      "theory_id": 2,
+      "sub_theory_id": 3,
+      "source_id": 10,
+      "title": "Primordial Shapeshifter",
+      "description": "The professor who spent years researching ancient texts about Gaunter openly says that he has been alive for at least thousands of years, appears in many cultures, he can change his form, and he uses different names. Because of that it's plausible that at some point he existed as Lilvani on the Continent, and on Earth he's known as Lilith, a primordial demon."
+    },
+    {
+      "id": "91bb439c-14d3-4ef1-804e-cc510f167937",
+      "is_fact": true,
+      "theory_id": 2,
+      "sub_theory_id": 3,
+      "source_id": 10,
+      "title": "Godlike Powers",
+      "description": "In several scenes we can clearly see that Gaunter doesn't teleport, he instantly materializes without a single flash or sound. This is very indicative of an entity which either controls time and walks into position to then resume the flow of time, or Gaunter is a higher dimensional entity who perceives all space and time and can choose to manifest in a specific place at a specific time. No matter which one it is, this is a strong indicator of Godlike powers. Perhaps Lilith as a primordial demon could do that."
     }
   ]
 }
