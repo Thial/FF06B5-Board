@@ -31,6 +31,10 @@
         {
           "id": 7,
           "name": "Lilvani"
+        },
+        {
+          "id": 8,
+          "name": "Lilvani = Lilith ?"
         }
       ]
     },
@@ -48,7 +52,7 @@
         },
         {
           "id": 3,
-          "name": "Gaunter=Lilvani=Lilith?"
+          "name": "Lilith's Associate Or Herself ?"
         }
       ]
     },
@@ -648,13 +652,22 @@
       "description": "Another statue can be seen in the painted world of Iris. When approached Geralt explicitly exclaims that he doesn't know this deity which suggests that it's really ancient and forgotten."
     },
     {
+      "id": "916a723c-3cbb-4cf7-9f3d-868701163148",
+      "is_fact": true,
+      "theory_id": 2,
+      "sub_theory_id": 3,
+      "source_id": 3,
+      "title": "Broken Mirror",
+      "description": "In Professor's house we can find a shattered mirror. This means that the Professor knew that Gaunter can hide in mirrors and purposefully broke it. Hiding in mirrors matches Lilith's lore but it is unknown if this is a unique trait of Lilith or perhaps every powerful demon can do things like these."
+    },
+    {
       "id": "e350a28e-d1ba-44e9-8c77-9a3a642f4428",
       "is_fact": true,
       "theory_id": 2,
       "sub_theory_id": 3,
       "source_id": 3,
       "title": "Palace Mirror",
-      "description": "Now comes a pretty interesting twist. The final palace where we defeat Gaunter features a bunch of mirrors since like he himself said he is 'Master Mirror' or 'Man of Glass'. But the interesting thing is that this palace also features a statue of Lilvani which suggests that the palace is related to Lilvani. Lilith in her lore is known to hide in mirrors and to receive mirrors as offerings because she lacks her own reflection."
+      "description": "The final palace where we defeat Gaunter features a bunch of mirrors since like he himself said he is 'Master Mirror' or 'Man of Glass'. But the interesting thing is that this palace also features a statue of Lilvani which suggests that the palace is related to Lilvani. If Lilvani is Lilith this could be a strong connection. Lilith in her lore is known to hide in mirrors and to receive mirrors as offerings because she lacks her own reflection."
     },
     {
       "id": "e04c02a2-ced2-4d77-8207-1faab572cc1b",
@@ -663,31 +676,31 @@
       "sub_theory_id": 3,
       "source_id": 3,
       "title": "Hiding In Reflection",
-      "description": "During the final battle Gaunter is hiding in a water reflection (mirror?) which can be seen for a split second before Geralt pulls him out. In Jewish folklore Lilith hides in mirrors, it doesn't explicitly talk about water reflections but since the function is the same it could be assumed that the surface of water also counts."
+      "description": "During the final battle Gaunter is hiding in water reflection (mirror?) which can be seen for a split second before Geralt pulls him out. In Jewish folklore Lilith hides in mirrors. It doesn't explicitly talk about water reflection but since the function is the same it could be assumed that the surface of water also counts. It's unknown if this is proof of a very strong connection to Lilith or just a single manifestation of his vast powers."
     },
     {
       "id": "6ed9106c-c4b5-4a1d-84bb-7d1228d3848e",
       "is_fact": true,
       "theory_id": 2,
-      "sub_theory_id": 3,
+      "sub_theory_id": 1,
       "source_id": 3,
       "title": "Otherworldly Knowledge",
-      "description": "Once Gaunter gets defeated by Geralt he says 3 phrases in 3 different languages from Earth. The full message is: 'You're a cock and the cock is king only atop his pile of manure. You think you've beaten me, you're wrong. I can't be killed. I'll be back.'. This suggests that Gaunter also exists on Earth and can either exist in many places at the same time or materialize anywhere and anytime he wants to, or he can travel between worlds. This also adds weight to the theory that he's also present in Cyberpunk 2077."
+      "description": "Once Gaunter gets defeated by Geralt he says 3 phrases in 3 different languages from Earth. The full message is: 'You're a cock and the cock is king only atop his pile of manure. You think you've beaten me, you're wrong. I can't be killed. I'll be back.'. This suggests that Gaunter has been to Earth. It's unknown if he can travel to different worlds or he exists in all of them at the same time and chooses to materialize at specific places. This is also proof that Witcher openly acknowledges the existence of Earth."
     },
     {
       "id": "aa37676f-9dad-4a93-b290-fc66f4465c17",
       "is_fact": false,
-      "theory_id": 2,
-      "sub_theory_id": 3,
+      "theory_id": 1,
+      "sub_theory_id": 8,
       "source_id": 10,
       "title": "Lilvani's Eclipse",
-      "description": "What if we've been lied to? The board Sands of Time from Gwent (Temple of Lilvani) has a special feature where the 'Moon' can glow. But it doesn't glow in a way it should. It emits radiant yellow rays like the Sun. What if we've been tricked and this 'mosaic' actually shows an eclipse with a dark Moon in front of a glowing Sun like on the picture below? This could change everything. Lilith in real lore is also known as the Goddess of the Moon (same as Lilvani). Additionally Gaunter O'Dimm seems to be heavily connected to Lilvani. Coincidence?"
+      "description": "What if we've been lied to? The board Sands of Time from Gwent (Temple of Lilvani) has a special feature where the 'Moon' can glow. But it doesn't glow in a way it should. It emits radiant yellow rays like the Sun. What if we've been tricked and this 'mosaic' actually shows an eclipse with a dark Moon in front of a glowing Sun like on the picture below?"
     },
     {
       "id": "72e48db8-0913-4a9f-b059-64e4b73a666a",
       "is_fact": true,
-      "theory_id": 2,
-      "sub_theory_id": 3,
+      "theory_id": 1,
+      "sub_theory_id": 8,
       "source_id": 10,
       "title": "Eclipse Board",
       "description": "The Eclipse board from Gwent which was released in the Black Sun expansion (Lilith related) showcases the eclipse in the same exact way, a dark Moon in front of a glowing Sun. Similar things can be observed in other media related to the Black Sun."
@@ -699,7 +712,7 @@
       "sub_theory_id": 3,
       "source_id": 10,
       "title": "Gaunter and Moon",
-      "description": "Gaunter O'Dimm seems to love the Moon as well. He tends to appear at night when the Moon is out which is very Lilith like since she is the Goddess of the Moon same as Lilvani."
+      "description": "Gaunter O'Dimm seems to love the Moon as well. He tends to appear at night when the Moon is out which could be treated as an indicator that he's heavily connected to Lilith since she is the Goddess of the Moon on Earth same as Lilvani on the Continent."
     },
     {
       "id": "f709d0b1-9f7c-4f52-8691-dfe7851aab86",
@@ -708,16 +721,25 @@
       "sub_theory_id": 3,
       "source_id": 10,
       "title": "Primordial Shapeshifter",
-      "description": "The professor who spent years researching ancient texts about Gaunter openly says that he has been alive for at least thousands of years, appears in many cultures, he can change his form, and he uses different names. Because of that it's plausible that at some point he existed as Lilvani on the Continent, and on Earth he's known as Lilith, a primordial demon."
+      "description": "The professor who spent years researching ancient texts about Gaunter openly says that he has been alive for at least thousands of years, appears in many cultures, he can change his form, and he uses different names. This means that we probably don't even know what he really looks like or if it's even a man. This could be an indication that he's some sort of a primordial demon same as Lilith perhaps."
     },
     {
       "id": "91bb439c-14d3-4ef1-804e-cc510f167937",
       "is_fact": true,
       "theory_id": 2,
-      "sub_theory_id": 3,
+      "sub_theory_id": 2,
       "source_id": 10,
       "title": "Godlike Powers",
-      "description": "In several scenes we can clearly see that Gaunter doesn't teleport, he instantly materializes without a single flash or sound. This is very indicative of an entity which either controls time and walks into position to then resume the flow of time, or Gaunter is a higher dimensional entity who perceives all space and time and can choose to manifest in a specific place at a specific time. No matter which one it is, this is a strong indicator of Godlike powers. Perhaps Lilith as a primordial demon could do that."
+      "description": "In several scenes we can clearly see that Gaunter doesn't teleport, he instantly vanishes or materializes without a single flash or sound. This is very indicative of an entity which either controls time and walks into position to then resume the flow of time, or Gaunter is a higher dimensional entity who perceives all space and time and can choose to manifest in a specific place at a specific time. No matter which one it is, this is a strong indicator of Godlike powers as even when he stops the time he doesn't chant any spells."
+    },
+    {
+      "id": "93c3d7ad-8b9b-41d3-87d9-ced463ec47ba",
+      "is_fact": true,
+      "theory_id": 18,
+      "sub_theory_id": 5,
+      "source_id": 10,
+      "title": "Diagram",
+      "description": "At Misty's Esoterica we can find a strange diagram which might be related to Chakra Harmonization or Crystal Radiation. We can see some strange value pairs separated by a colon around the central eye. The very curious thing is that in all of those 'circles' except for one the larger value is on the right and the difference between the values is just 1. Meanwhile in the 'circle' with e1:c1 the larger value is on the left and the difference between them is 32. Many people suspect that this could be some sort of a puzzle, perhaps even related to FF06B5."
     }
   ]
 }

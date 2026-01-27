@@ -161,18 +161,20 @@
         const TEXT_HEIGHT = 230;
         const CARD_WIDTH = 400;
         const CARD_HEIGHT = TITLE_BAR_HEIGHT + IMAGE_HEIGHT + TEXT_HEIGHT;
-        const CARD_GAP_X = 300;
-        const CARD_GAP_Y = 50;
+        const CARD_GAP = 50;
+        const CARD_GAP_X = CARD_HEIGHT - CARD_WIDTH + CARD_GAP;
+        const CARD_GAP_Y = CARD_GAP;
         const CARD_HALF_GAP_X = CARD_GAP_X / 2;
         const CARD_HALF_GAP_Y = CARD_GAP_Y / 2;
 
-        const SUB_THEORY_GAP_X = 800;
-        const SUB_THEORY_GAP_Y = 800;
+        const THEORY_GAP_MUL = 16;
+        const SUB_THEORY_GAP_X = CARD_GAP * THEORY_GAP_MUL;
+        const SUB_THEORY_GAP_Y = CARD_GAP * THEORY_GAP_MUL;
         const SUB_THEORY_HALF_GAP_X = SUB_THEORY_GAP_X / 2;
         const SUB_THEORY_HALF_GAP_Y = SUB_THEORY_GAP_Y / 2;
 
-        const THEORY_GAP_X = 800;
-        const THEORY_GAP_Y = 800;
+        const THEORY_GAP_X = CARD_GAP * THEORY_GAP_MUL;
+        const THEORY_GAP_Y = CARD_GAP * THEORY_GAP_MUL;
         const THEORY_HALF_GAP_X = THEORY_GAP_X / 2;
         const THEORY_HALF_GAP_Y = THEORY_GAP_Y / 2;
 
@@ -246,6 +248,13 @@
                     loadingScreen.style.display = 'none';
                 })
                 .catch(err => console.error(err));
+        }
+        
+        function parseJson(rawJson) {
+            const cleanedJson = rawJson.replace(/,\s*([\]}])/g, '$1');
+            const data = JSON.parse(cleanedJson);
+            //console.log(json);
+            return data;
         }
 
         function loadImage(id, url) {
@@ -613,14 +622,22 @@
                 ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
                 ctx.textBaseline = 'middle';
                 ctx.textAlign = 'left';
-                ctx.fillText(`${card.theory_name.toUpperCase()} - ${card.sub_theory_name.toUpperCase()}`, x + w2sL(10), y + w2sL(38));
+                ctx.fillText(card.theory_name.toUpperCase(), x + w2sL(10), y + w2sL(38));
+
+                // Sub Theory
+                ctx.fillStyle = '#F55';
+                ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'left';
+                ctx.fillText(card.sub_theory_name.toUpperCase(), x + w2sL(10), y + w2sL(58));
+
 
                 // Source
                 ctx.fillStyle = '#F55';
                 ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
                 ctx.textBaseline = 'middle';
-                ctx.textAlign = 'left';
-                ctx.fillText(`${card.source_name.toUpperCase()}`, x + w2sL(10), y + w2sL(58));
+                ctx.textAlign = 'right';
+                ctx.fillText(card.source_name.toUpperCase(), x + w - w2sL(10), y + w2sL(38));
 
                 // Fact Check
                 ctx.font = `bold ${w2sL(16)}px Jura, sans-serif`;
